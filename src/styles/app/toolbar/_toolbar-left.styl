@@ -1,35 +1,167 @@
+toolbar-left-right-defaults()
+  position fixed
+  height 100%
+  width 0px
+  top 100px
+  shaodw(3)
+
+left-toolbar-default()
+  toolbar-left-right-defaults()
+
+right-toolbar-default()
+  toolbar-left-right-defaults()
+  right 0
+
+
+left-tools-default()
+  // display none
+  font-size 18px
+  position relative
+  overflow hidden
+  text-align center
+  padding-left 0px
+  width 0px
+
+  // default-tools-left-animation()
+
+right-tools-default()
+  display block
+  position relative
+  overflow hidden
+  /* Value Set in keyframes*/
+  text-align center
+  // padding-left 0
+  // width 40px
+
+
+left-tools-default-animation()
+  animation toggleTools-back-mobile 400ms
+  -webkit-animation toggleTools-back-mobile 400ms
+  animation-fill-mode forwards
+  -webkit-animation-fill-mode forwards
+
+
+
+
+
+left-toolbar-size-xs()
+  top 100px
+  width 0px
+
+left-toolbar-size-sm()
+  top 50px
+  width 50px
+
+left-toolbar-size-md()
+  top 50px
+  width 50px
+
+left-toolbar-size-lg()
+  top 60px
+  width 60px
+
+right-toolbar-size-xs()
+  top 100px
+  width 0px
+
+right-toolbar-size-sm()
+  top 50px
+  width 50px
+
+right-toolbar-size-md()
+  top 50px
+  width 50px
+
+right-toolbar-size-lg()
+  top 60px
+  width 60px
+
+
+
+
+left-toolbar-media()
+  @media(min-width screen-size-xs)
+    left-toolbar-size-xs()
+  @media(min-width screen-size-sm)
+    left-toolbar-size-sm()
+  @media(min-width screen-size-md)
+    left-toolbar-size-md()
+  @media(min-width screen-size-lg)
+    left-toolbar-size-lg()
+
+right-toolbar-meida()
+  @media(min-width screen-size-xs)
+    right-toolbar-size-xs()
+  @media(min-width screen-size-sm)
+    right-toolbar-size-sm()
+  @media(min-width screen-size-md)
+    right-toolbar-size-md()
+  @media(min-width screen-size-lg)
+    right-toolbar-size-lg()
+
+
+left-tools-media()
+
+  @media(max-width screen-size-xs)
+    min-width 0px
+
+  @media(min-width screen-size-sm)
+    // height 50px
+    min-width 50px
+    // padding-top 17px
+    // padding-bottom 10px
+
+    // animation toggleTools-back 400ms
+    // -webkit-animation toggleTools-back 400ms
+    // animation-fill-mode forwards
+    // -webkit-animation-fill-mode forwards
+
+  @media(min-width screen-size-md)
+    min-width 50px
+
+    // animation toggleTools-back 400ms
+    // -webkit-animation toggleTools-back 400ms
+    // animation-fill-mode forwards
+    // -webkit-animation-fill-mode forwards
+
+
+  @media(min-width screen-size-lg)
+    height 60px
+    min-width 60px
+    font-size 22px
+    // animation toggleTools-back 400ms
+    // -webkit-animation toggleTools-back 400ms
+    // animation-fill-mode forwards
+    // -webkit-animation-fill-mode forwards
+
+right-tools-media()
+  @media(min-width screen-size-xs)
+    min-width 0px
+  @media(min-width screen-size-sm)
+    min-width 50px
+    // animation-fill-mode forwards
+    // -webkit-animation-fill-mode forwards
+  @media(min-width screen-size-md)
+    min-width 50px
+  @media(min-width screen-size-lg)
+    min-width 60px
+
+
 .ox-toolbar
   &.ox-toolbar-left
 
-    position fixed
-    height 100%
-    width 50px
-    top 100px
-    shadow(3)
+    left-toolbar-default()
 
+    left-toolbar-media()
 
-    @media(min-width 768px)
-      top 60px
-      width 60px
 
     .tool
 
-      display block
-      position relative
-      overflow hidden
-      /* Value Set in keyframes*/
-      text-align center
-      animation toggleTools-back-mobile 400ms
-      -webkit-animation toggleTools-back-mobile 400ms
-      animation-fill-mode forwards
-      -webkit-animation-fill-mode forwards
+      left-tools-default()
 
-      @media(min-width 768px)
-        animation toggleTools-back 400ms
-        -webkit-animation toggleTools-back 400ms
-        animation-fill-mode forwards
-        -webkit-animation-fill-mode forwards
-        width 60px
+      left-tools-media()
+
+
 
       .title
         opacity 0
@@ -42,16 +174,10 @@
 
   &.ox-toolbar-right
 
-    position fixed
-    height 100%
-    width 50px
-    right 0
-    top 100px
-    shadow(3)
+    right-toolbar-default()
 
-    @media(min-width 768px)
-      top 60px
-      width 60px
+    right-toolbar-meida()
+
 
 
     .tool
@@ -118,6 +244,7 @@
 
 
     .tool
+
       text-align left
       // padding-left 20px
       // width 100%
@@ -128,6 +255,7 @@
       -webkit-animation-fill-mode forwards
 
       .ox-icon
+
         font-size 18px
       .title
         // opacity 1

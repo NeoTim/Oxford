@@ -21,4 +21,8 @@ describe('ox-toggle-toolbar-left', function() {
     angular.element(element).triggerHandler('click')
     expect(body.hasClass( 'show-toolbar-left' ) ).to.be(false);
   });
+  it('Should toggle have a class toggle-toolbar-left', function() {
+    var el = angular.element(element);
+    expect( el.hasClass( 'toggle-toolbar-left' ) ).to.be(true);
+  });
 });

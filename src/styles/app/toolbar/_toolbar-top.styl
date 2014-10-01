@@ -1,17 +1,93 @@
+toolbar-top-bottom-defaults(header = false)
+  // position fixed
+  width 100%
+
+  height 50px
+
+top-toolbar-default()
+  toolbar-top-bottom-defaults()
+  top 0
+
+bottom-toolbar-default()
+  toolbar-top-bottom-defaults()
+  bottom 0
+
+
+top-header-default()
+  width 100%
+  height 50px
+  text-align center
+  color color-grey-500
+
+top-toolbar-size-xs()
+  height 50px
+top-toolbar-size-sm()
+  height 50px
+top-toolbar-size-md()
+  height 50px
+top-toolbar-size-lg()
+  height 60px
+
+bottom-toolbar-size-xs()
+  height 50px
+bottom-toolbar-size-sm()
+  height 50px
+bottom-toolbar-size-md()
+  height 60px
+bottom-toolbar-size-lg()
+  height 60px
+
+
+
+
+top-toolbar-media(header=false)
+  @media(min-width screen-size-xs)
+    top-toolbar-size-xs()
+  @media(min-width screen-size-sm)
+    top-toolbar-size-sm()
+  @media(min-width screen-size-md)
+    top-toolbar-size-md()
+  @media(min-width screen-size-lg)
+    top-toolbar-size-lg()
+
+bottom-toolbar-media()
+  @media(min-width screen-size-xs)
+    bottom-toolbar-size-xs()
+  @media(min-width screen-size-sm)
+    bottom-toolbar-size-sm()
+  @media(min-width screen-size-md)
+    bottom-toolbar-size-md()
+  @media(min-width screen-size-lg)
+    bottom-toolbar-size-lg()
+
+// top-toolbar-media()
+//   // @media(min-width screen-size-xs)
+//     // bottom-toolbar-size-xs()
+//   @media(min-width screen-size-sm)
+//     bottom-toolbar-size-sm()
+//   @media(min-width screen-size-md)
+//     bottom-toolbar-size-md()
+//   @media(min-width screen-size-lg)
+//     bottom-toolbar-size-lg()
+
+
 .ox-toolbar
 
   &.ox-toolbar-top
+    .toolbar-toggle-left,
+    .toolbar-toggle-right
+      display none
+
+    top-toolbar-default()
+    // top-toolbar-media()
 
     &.ox-toolbar-has-title
-      postion fixed
-      top 0
-      height 100px
-      @media (min-width 768px)
-        height 60px
+      top-toolbar-media(true)
+
     .ox-toolbar-header
-      color color-grey-500
 
       // > div.ox-brand > div > span
+      top-header-default()
       width 100%
       height 50px
       text-align center
@@ -47,10 +123,12 @@
       &.tools-left
         float left
         .tool
+          min-width 50px
           float left
       &.tools-right
         float right
         .tool
+          min-width 50px
           float right
 
   &.ox-toolbar-bottom
@@ -65,9 +143,9 @@
       //   height 60px
 
     .ox-toolbar-header
-      color color-grey-500
 
-      // > div.ox-brand > div > span
+
+      color color-grey-500
       width 100%
       height 50px
       display none
@@ -105,8 +183,10 @@
       &.tools-left
         float left
         .tool
+          min-width 50px
           float left
       &.tools-right
         float right
         .tool
+          min-width 50px
           float right

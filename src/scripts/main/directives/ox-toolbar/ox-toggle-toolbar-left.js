@@ -8,6 +8,7 @@
         replace: true,
         restrict: 'EA',
         link: function($scope, $element, $attr, navController) {
+          $element.addClass('toggle-toolbar-left');
           $element.on('click', toggleNav);
 
           function toggleNav(){
