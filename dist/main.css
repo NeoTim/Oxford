@@ -10811,10 +10811,28 @@ body {
 .ox-item {
   height: 50px;
 }
-.testblock {
+.testblock1 {
   width: 100%;
   height: 400px;
   background: #fff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.testblock2 {
+  width: 100%;
+  height: 400px;
+  background: #e51c23;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.testblock3 {
+  width: 100%;
+  height: 400px;
+  background: #ff9800;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.testblock4 {
+  width: 100%;
+  height: 400px;
+  background: #9c27b0;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 .shadow-1 {
@@ -16412,7 +16430,7 @@ a.tool .ox-icon,
   float: right;
 }
 .ox-toolbar.ox-toolbar-left {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 50px;
   top: 100px;
@@ -16454,7 +16472,7 @@ a.tool .ox-icon,
   text-align: right;
 }
 .ox-toolbar.ox-toolbar-right {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 50px;
   right: 0;

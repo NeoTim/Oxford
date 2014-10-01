@@ -67,6 +67,7 @@ gulp.task('inject:bower', function () {
     .pipe( gulp.dest( paths.demo.root ) );
 });
 
+
 /*
  *  Inject JS and CSS files into demo/index.html
  */
@@ -120,6 +121,7 @@ gulp.task('watch', function() {
  *  Now in your index.html you can access the files by prepending a root slash
  *  Example: In order to load ./src/scripts/main.js you would put the following in demo/index.html
  *  - <script src="/scripts/main.js"></script>
+ *
 */
 
 // @NOTE 'serve' just runs the server.js and builds files

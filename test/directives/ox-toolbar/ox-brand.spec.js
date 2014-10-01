@@ -15,6 +15,8 @@ describe('ox-toolbar-brand', function() {
     expect(element).to.be.an(Object);
   });
   it('Should have the class ox-brand', function() {
+
     expect(angular.element(element).hasClass('ox-brand')).to.be(true);
+
   });
 });
