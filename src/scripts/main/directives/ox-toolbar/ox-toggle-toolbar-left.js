@@ -10,11 +10,16 @@
         link: function($scope, $element, $attr, navController) {
           $element.addClass('toggle-toolbar-left');
           $element.on('click', toggleNav);
-
+          var current_icon = $attr.icon;
+          var next_icon = $attr.next;
           function toggleNav(){
+
+            angular.element($element).find('i').toggleClass('fa-'+current_icon)
+            angular.element($element).find('i').toggleClass('fa-'+next_icon)
             document.querySelector('body').classList.toggle('show-toolbar-left')
             document.querySelector('body').classList.toggle('has-ox-toolbar-left')
           }
+
 
         }
       };

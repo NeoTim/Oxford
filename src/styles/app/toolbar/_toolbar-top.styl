@@ -1,24 +1,60 @@
+
+/*
+ * ox-toolbar-top & ox-toolbar-bottom shared default styles
+ */
 toolbar-top-bottom-defaults(header = false)
   // position fixed
-  width 100%
 
   height 50px
 
+/*
+ * ox-toolbar-top default styles
+ */
 top-toolbar-default()
   toolbar-top-bottom-defaults()
+  height 100px
   top 0
 
+/*
+ * ox-toolbar-bottom default styles
+ */
 bottom-toolbar-default()
   toolbar-top-bottom-defaults()
+  position fixed
+  width 100%
   bottom 0
 
-
-top-header-default()
+/*
+ * top: ox-toolbar-header default styles
+ */
+top-toolbar-header-default()
   width 100%
   height 50px
   text-align center
   color color-grey-500
 
+/*
+ * bottom: ox-toolbar-header default styles
+ */
+bottom-toolbar-header-default()
+  display none
+
+/*
+ * ox-tool-box default styles
+ */
+toolbar-tool-box-default()
+  width 100%
+  z-index 1000
+
+/*
+ * ox-tool default-styles
+ */
+tool-toolbar-default()
+  min-width 50px
+
+/*
+ * ox-toolbar-top screen size styles
+ */
 top-toolbar-size-xs()
   height 50px
 top-toolbar-size-sm()
@@ -28,28 +64,103 @@ top-toolbar-size-md()
 top-toolbar-size-lg()
   height 60px
 
+/*
+ * ox-toolbar-bottom screen size styels
+ */
 bottom-toolbar-size-xs()
   height 50px
 bottom-toolbar-size-sm()
   height 50px
 bottom-toolbar-size-md()
-  height 60px
+  height 50px
 bottom-toolbar-size-lg()
   height 60px
 
+/*
+ * ox-toolbar-header screen size styles
+ */
+top-toolbar-header-size-xs()
+  height 50px
+  width 100%
+  text-align center
+top-toolbar-header-size-sm()
+  height 50px
+  width 250px
+  float left
+top-toolbar-header-size-md()
+  height 50px
+top-toolbar-header-size-lg()
+  height 60px
+
+/*
+ * ox-toolbar-header screen size styles
+ */
+bottom-toolbar-header-size-xs()
+  display none
+
+bottom-toolbar-header-size-sm()
+  display none
+  display block
+  width 250px
+  height 50px
+  float left
+bottom-toolbar-header-size-md()
+  height 60px
+bottom-toolbar-header-size-lg()
+  height 60px
 
 
 
+/*
+ * ox-tool-box screen size styels
+ */
+toolbar-tool-box-size-xs()
+  height 50px
+toolbar-tool-box-size-sm()
+  float left
+  width calc(100% - 250px)
+toolbar-tool-box-size-md()
+  float left
+  width calc(100% - 250px)
+toolbar-tool-box-size-lg()
+  float left
+  width calc(100% - 250px)
+
+/*
+ * ox-tool screen size styels
+ */
+tool-toolbar-size-xs()
+  height 50px
+tool-toolbar-size-sm()
+  height 50px
+tool-toolbar-size-md()
+  height 50px
+tool-toolbar-size-lg()
+  width 60px
+  height 60px
+  font-size 22px
+  padding-top 17px
+  padding-bottom 10px
+
+
+/*
+ * ox-toolbar-top media queries
+ */
 top-toolbar-media(header=false)
   @media(min-width screen-size-xs)
-    top-toolbar-size-xs()
+    if header is true
+      height 100px
+    else
+      top-toolbar-size-xs()
   @media(min-width screen-size-sm)
     top-toolbar-size-sm()
   @media(min-width screen-size-md)
     top-toolbar-size-md()
   @media(min-width screen-size-lg)
     top-toolbar-size-lg()
-
+/*
+ * ox-toolbar-bottom media queries
+ */
 bottom-toolbar-media()
   @media(min-width screen-size-xs)
     bottom-toolbar-size-xs()
@@ -60,15 +171,50 @@ bottom-toolbar-media()
   @media(min-width screen-size-lg)
     bottom-toolbar-size-lg()
 
-// top-toolbar-media()
-//   // @media(min-width screen-size-xs)
-//     // bottom-toolbar-size-xs()
-//   @media(min-width screen-size-sm)
-//     bottom-toolbar-size-sm()
-//   @media(min-width screen-size-md)
-//     bottom-toolbar-size-md()
-//   @media(min-width screen-size-lg)
-//     bottom-toolbar-size-lg()
+/*
+ * top: ox-toolbar-header media queries
+ */
+top-toolbar-header-media()
+  @media(min-width screen-size-xs)
+    top-toolbar-header-size-xs()
+  @media(min-width screen-size-sm)
+    top-toolbar-header-size-sm()
+  @media(min-width screen-size-md)
+    top-toolbar-header-size-md()
+  @media(min-width screen-size-lg)
+    top-toolbar-header-size-lg()
+/*
+ *  bottom: ox-toolbar-header media queries
+ */
+bottom-toolbar-header-media()
+  @media(min-width screen-size-xs)
+    bottom-toolbar-header-size-xs()
+  @media(min-width screen-size-sm)
+    bottom-toolbar-header-size-sm()
+  @media(min-width screen-size-md)
+    bottom-toolbar-header-size-md()
+  @media(min-width screen-size-lg)
+    bottom-toolbar-header-size-lg()
+
+toolbar-tool-box-media()
+  @media(min-width screen-size-xs)
+    toolbar-tool-box-size-xs()
+  @media(min-width screen-size-sm)
+    toolbar-tool-box-size-sm()
+  @media(min-width screen-size-md)
+    toolbar-tool-box-size-md()
+  @media(min-width screen-size-lg)
+    toolbar-tool-box-size-lg()
+
+tool-toolbar-media()
+  @media(min-width screen-size-xs)
+    tool-toolbar-size-xs()
+  @media(min-width screen-size-sm)
+    tool-toolbar-size-sm()
+  @media(min-width screen-size-md)
+    tool-toolbar-size-md()
+  @media(min-width screen-size-lg)
+    tool-toolbar-size-lg()
 
 
 .ox-toolbar
@@ -81,21 +227,19 @@ bottom-toolbar-media()
     top-toolbar-default()
     // top-toolbar-media()
 
+
+    // OX-TOOLBAR-HAS-TITLE
+      // Change the hight of the toolbar on mobile if the is a header
     &.ox-toolbar-has-title
+      // Pass True to make sure the header height is set correctly
       top-toolbar-media(true)
 
+    // OX-TOOLBAR-HEADER
     .ox-toolbar-header
 
       // > div.ox-brand > div > span
-      top-header-default()
-      width 100%
-      height 50px
-      text-align center
-
-      @media (min-width: 768px)
-        width 250px
-        height 60px
-        float left
+      top-toolbar-header-default()
+      top-toolbar-header-media()
 
       .ox-brand
         width 100%
@@ -104,12 +248,10 @@ bottom-toolbar-media()
         padding-top 15px
 
     .ox-tool-box
-      width 100%
-      z-index 1000
 
-      @media (min-width 768px)
-        float left
-        width calc(100% - 250px)
+      toolbar-tool-box-default()
+      toolbar-tool-box-media()
+
 
     .tools
       // Mobile Height
@@ -117,45 +259,41 @@ bottom-toolbar-media()
       height 50px
 
 
-      @media (min-width: 768px)
-        height 60px
+      @media (min-width: 800px)
+        height 50px
 
       &.tools-left
         float left
         .tool
-          min-width 50px
+          tool-toolbar-default()
+          tool-toolbar-media()
           float left
       &.tools-right
         float right
         .tool
-          min-width 50px
+          tool-toolbar-default()
+          tool-toolbar-media()
+
           float right
 
   &.ox-toolbar-bottom
-    z-index 3000
-    position fixed
-    bottom 0
-    width 100%
+    bottom-toolbar-default()
+    bottom-toolbar-media()
 
     &.ox-toolbar-has-title
-      // height 100px
-      // @media (min-width 768px)
-      //   height 60px
+      bottom-toolbar-default()
+      bottom-toolbar-media()
+
 
     .ox-toolbar-header
-
-
-      color color-grey-500
-      width 100%
-      height 50px
-      display none
-      text-align center
-
-      @media (min-width: 768px)
-        display block
-        width 250px
-        height 60px
-        float left
+      bottom-toolbar-header-default()
+      // display none
+      bottom-toolbar-header-media()
+      // @media (min-width: 800px)
+      //   display block
+      //   width 250px
+      //   height 60px
+      //   float left
 
       .ox-brand
         width 100%
@@ -177,8 +315,8 @@ bottom-toolbar-media()
       height 50px
 
 
-      @media (min-width: 768px)
-        height 60px
+      // @media (min-width: 768px)
+      //   height 60px
 
       &.tools-left
         float left

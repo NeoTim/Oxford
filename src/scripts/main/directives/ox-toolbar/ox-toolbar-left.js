@@ -13,8 +13,8 @@
           '<div ng-transclude></div>' +
         '</div>',
         link: function($scope, $element, $attr, navController) {
-          $scope.color = $attr.color;
           document.querySelector('body').classList.add('has-ox-toolbar-left')
+          $scope.color = $attr.color || 'default'
         }
       };
     }

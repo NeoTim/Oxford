@@ -7,9 +7,41 @@
 
 // Screen Size
 screen-size-xs = 480px
-screen-size-sm = 768px
-screen-size-md = 992px
+screen-size-sm = 620px
+screen-size-md = 800px
 screen-size-lg = 1200px
 screen-size-xl = 1366px
+
+ox-toolbar-width-xs = 0px
+ox-toolbar-width-sm = 50px
+ox-toolbar-width-md = 50px
+ox-toolbar-width-lg = 60px
+
+ox-toolbar-top-xs = 100px
+ox-toolbar-top-sm = 50px
+ox-toolbar-top-md = 50px
+ox-toolbar-top-lg = 60px
+
+ox-toolbar-open-width = 250px
+dashboard-content-open-single-width = calc(100% - 250px)
+dashboard-content-open-double-width = calc(100% - 500px)
+
+
+respond(device)
+  if device is tiny
+    @media( min-width screen-size-xs )
+      block
+  else if device is small
+    @media( min-width screen-size-sm )
+      block
+  else if device is medium
+    @media( min-width screen-size-md )
+      block
+  else if device is large
+    @media( min-width screen-size-lg )
+      block
+  else if device is huge
+    @media( min-width screen-size-xl )
+      block
 
 

@@ -14,7 +14,7 @@
           // link: '=link',
           // title: '=title'
         },
-        template: '<a href="{{link}}" class="tool withripple button-{{color}}">' +
+        template: '<a href="{{link}}" class="tool button-{{color}}">' +
                   '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
                   '<span class="title">{{title}}</span>' +
                   '<paper-ripple fit></paper-ripple>'+

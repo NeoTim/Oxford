@@ -18,9 +18,9 @@
           '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
         '</div>',
         link: function($scope, $element, $attr, navController) {
-          if( $attr.fixed === "true" ){
-            $element.addClass('fixed-top')
-          }
+          // if( $attr.fixed === "true" ){
+          //   $element.addClass('fixed-top')
+          // }
           $scope.color = $attr.color || 'default';
 
           $scope.title = $attr.title;
