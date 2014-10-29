@@ -139,6 +139,6 @@ gulp.task('test', $.shell.task([
 
 gulp.task('demo', ['jshint', 'css', 'inject'])
 
-gulp.task('build', ['jshint', 'uglify', 'css', 'inject:js']);
+gulp.task('build', ['jshint', 'uglify', 'css', 'inject']);
 
 gulp.task('default', ['build', 'watch']);
