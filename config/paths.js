@@ -1,6 +1,7 @@
 module.exports = {
   bower : './src/lib/',
   scripts: ['src/lib/d3/d3.js', 'src/lib/c3/c3.js', 'src/scripts/**/*.js'],
+  boot: ['src/bootstrap/bootstrap.styl'],
   stylus: ['src/styles/main.styl'],
   watchStylus: ['src/styles/**/*.styl'],
   css: ['src/styles/**/*.css'],

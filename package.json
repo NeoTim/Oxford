@@ -51,5 +51,8 @@
   "private": true,
   "scripts": {
     "test": "gulp test"
+  },
+  "dependencies": {
+    "gulp-sequence": "^0.3.1"
   }
 }

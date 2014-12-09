@@ -167,25 +167,28 @@
       }
     };
   })
-  .directive('oxDashboardNav', function($window) {
+  .directive('oxDashboardContent', function() {
     return {
       transclude: true,
       replace: true,
       restrict: 'EA',
-      require: '^oxDashboard',
-      template: '<div class="dashboard-nav">' +
-        '<div ng-transclude></div>' +
-      '</div>',
-      link: function($scope, $element, $attr, navController) {
+      scope: true,
+      template:'<div class="dashboard-content">' +
+                '<ox-dashboard-view></ox-dashboard-view>' +
+              '</div>',
+      controller: function($scope) {
+
+      },
+      link: function() {
       }
     };
   })
-  .directive('oxDashboardContent', function() {
+  .directive('oxDashboardView', function() {
     return {
       replace: true,
       require: '^oxDashboard',
       restrict: 'EA',
-      template: '<div class="dashboard-content">' +
+      template: '<div class="dashboard-view">' +
         '<div ui-view></div>' +
       '</div>',
       link: function($scope, $element, $attr, navController) {
@@ -248,7 +251,8 @@
     'oxford.directives.toolbar',
     'oxford.directives.list',
     'oxford.directives.card',
-    'oxford.directives.drag'
+    'oxford.directives.drag',
+    'oxford.directives.ripple'
   ]);
 
 }());
@@ -287,24 +291,433 @@
     };
   });
 }());
+;(function(){
+'use strict';
+  angular
+    .module('oxford.directives.ripple', [])
+    .directive('oxRipple', oxRipple);
+
+    function oxRipple(){
+      return {
+        // transclude: true,
+        // replace: true,
+        restrict: 'A',
+        scope: true,
+        link: function($scope, $element, $attr, navController) {
+          var withRipple = ".withripple";
+
+
+          function matchesSelector(dom_element, selector) {
+
+              var matches = dom_element.matches || dom_element.matchesSelector || dom_element.webkitMatchesSelector || dom_element.mozMatchesSelector || dom_element.msMatchesSelector || dom_element.oMatchesSelector;
+              return matches.call(dom_element, selector);
+          }
+
+          // animations time
+          var rippleOutTime = 100,
+              rippleStartTime = 500;
+
+          // Helper to bind events on dynamically created elements
+          var bind = function(event, selector, callback) {
+              document.addEventListener(event, function(e) {
+                  var target = (typeof e.detail !== "number") ? e.detail : e.target;
+
+                  if (matchesSelector(target, selector)) {
+                      callback(e, target);
+                  }
+              });
+          };
+
+          var rippleStart = function(e, target) {
+
+              // Init variables
+              var $rippleWrapper  = (matchesSelector(target, ".ripple-wrapper")) ? target : target.parentNode,
+                  $el             = $rippleWrapper.parentNode,
+                  $ripple         = document.createElement("div"),
+                  elPos           = $el.getBoundingClientRect(),
+                  mousePos        = {x: e.clientX - elPos.left, y: e.clientY - elPos.top},
+                  scale           = "transform:scale(" + Math.round($rippleWrapper.offsetWidth / 5) + ")",
+                  rippleEnd       = new CustomEvent("rippleEnd", {detail: $ripple}),
+                  refreshElementStyle;
+
+              // Set ripple class
+              $ripple.className = "ripple";
+
+              // Move ripple to the mouse position
+              $ripple.setAttribute("style", "left:" + mousePos.x + "px; top:" + mousePos.y + "px;");
+
+              // Insert new ripple into ripple wrapper
+              $rippleWrapper.appendChild($ripple);
+
+              // Make sure the ripple has the class applied (ugly hack but it works)
+              refreshElementStyle = window.getComputedStyle($ripple).opacity;
+
+              // Let other funtions know that this element is animating
+              $ripple.dataset.animating = 1;
+
+              // Set scale value to ripple and animate it
+              $ripple.className = "ripple ripple-on";
+              $ripple.setAttribute("style", $ripple.getAttribute("style") + ["-ms-" + scale,"-moz-" + scale,"-webkit-" + scale,scale].join(";"));
+
+              // Dirty fix for Firefox... seems like absolute elements inside <A> tags do not trigger the "click" event
+              if (/firefox|crios|(^(?!.*chrome).*safari)|ip(ad|hone|od)/i.test(navigator.userAgent)) {
+                  $el.click();
+              }
+
+              // This function is called when the animation is finished
+              setTimeout(function() {
+
+                  // Let know to other functions that this element has finished the animation
+                  $ripple.dataset.animating = 0;
+                  document.dispatchEvent(rippleEnd);
+
+              }, rippleStartTime);
+          };
+
+          var rippleOut = function($ripple) {
+              // Clear previous animation
+              $ripple.className = "ripple ripple-on ripple-out";
+              // Let ripple fade out (with CSS)
+              setTimeout(function() {
+                  $('.ripple').remove()
+
+                  // $ripple.remove()
+              }, rippleOutTime);
+          };
+
+          // Helper, need to know if mouse is up or down
+          var mouseDown = false;
+          document.body.onmousedown = function() {
+
+              mouseDown = true;
+          };
+          document.body.onmouseup = function() {
+
+              mouseDown = false;
+          };
+
+          // Append ripple wrapper if not exists already
+          var rippleInit = function(e, target) {
+
+              if (target.getElementsByClassName("ripple-wrapper").length === 0) {
+                  target.className += " withripple";
+                  var $rippleWrapper = document.createElement("div");
+                  $rippleWrapper.className = "ripple-wrapper";
+                  target.appendChild($rippleWrapper);
+                  rippleStart(e, $rippleWrapper);
+              }
+          };
+
+          // Events handler
+          // init RippleJS and start ripple effect on mousedown
+          bind("mousedown", withRipple, rippleInit);
+
+          // start ripple effect on mousedown
+          bind("mousedown", ".ripple-wrapper, .ripple-wrapper .ripple", rippleStart);
+          // if animation ends and user is not holding mouse then destroy the ripple
+          bind("rippleEnd", ".ripple-wrapper, .ripple-wrapper .ripple", function(e, $ripple) {
+              if (!mouseDown) {
+                  rippleOut($ripple);
+              }
+          });
+          // Destroy ripple when mouse is not holded anymore if the ripple still exists
+          bind("mouseup", ".ripple-wrapper, .ripple-wrapper .ripple", function(e, $ripple) {
+              if ($ripple.dataset.animating != 1) {
+                  rippleOut($ripple);
+              }
+          });
+
+
+        }
+
+      };
+    }
+
+}).call(this);
 ;(function() {
   'use strict';
-
-  angular.module('oxford.directives.toolbar', [
-
-  ])
-  .directive('oxToolbar', function() {
+  angular
+    .module('oxford.directives.toolbar.brand', [])
+    .directive('oxBrand', oxBrand);
+  function oxBrand() {
     return {
       transclude: true,
       replace: true,
       restrict: 'EA',
       scope: true,
-      template: '<div class="ox-toolbar">' +
+      template: '<div class="ox-brand">' +
+        // '<a class="toolbar-toggle-left"><i class="fa fa-bars"></i></a>' +
         '<div ng-transclude></div>' +
+        // '<a class="toolbar-toggle-left"><i class="fa fa-bars"></i></a>' +
       '</div>',
       link: function($scope, $element, $attr, navController) {
 
       }
     };
-  });
+  }
+}());
+;(function(){
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.left.toggle', [])
+    .directive('oxToggleToolbarLeft', oxToggleToolbarLeft);
+    function oxToggleToolbarLeft($window) {
+      return {
+        replace: true,
+        restrict: 'EA',
+        link: function($scope, $element, $attr, navController) {
+          $element.addClass('toggle-toolbar-left');
+          $element.on('click', toggleNav);
+          var current_icon = $attr.icon;
+          var next_icon = $attr.next;
+          function toggleNav(){
+
+            angular.element($element).find('i').toggleClass('fa-'+current_icon)
+            angular.element($element).find('i').toggleClass('fa-'+next_icon)
+            document.querySelector('body').classList.toggle('show-toolbar-left')
+            document.querySelector('body').classList.toggle('has-ox-toolbar-left')
+          }
+
+
+        }
+      };
+    }
+}).call(this);
+;(function(){
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.right.toggle', [])
+    .directive('oxToggleToolbarRight', oxToggleToolbarRight);
+    function oxToggleToolbarRight($window) {
+      return {
+        replace: true,
+        restrict: 'EA',
+        link: function($scope, $element, $attr, navController) {
+          $element.addClass('toggle-toolbar-right');
+          $element.on('click', toggleNav);
+          var current_icon = $attr.icon;
+          var next_icon = $attr.next;
+          function toggleNav(){
+            angular.element($element).find('i').toggleClass('fa-'+current_icon)
+            angular.element($element).find('i').toggleClass('fa-'+next_icon)
+            document.querySelector('body').classList.toggle('show-toolbar-right')
+            document.querySelector('body').classList.toggle('has-ox-toolbar-right')
+          }
+
+        }
+      };
+    }
+}).call(this);
+;(function() {
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.toolbox',[])
+    .directive('oxToolBox', oxToolBox);
+    function oxToolBox() {
+      return {
+        transclude: true,
+        replace: true,
+        restrict: 'EA',
+        scope: {
+          side: '=side'
+        },
+        template: '<div class="ox-tool-box">' +
+          '<div ng-transclude></div>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+
+        }
+      };
+    }
+}());
+;(function() {
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.tool', [])
+    .directive('oxTool', oxTool);
+    function oxTool() {
+      return {
+        transclude: true,
+        // replace: true,
+        restrict: 'E',
+        scope: {
+          // color: '=color',
+          // icon: '=',
+          // link: '=link',
+          // title: '=title'
+        },
+        template: '<a href="{{link}}" class="tool button-{{color}}">' +
+                  '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
+                  '<span class="title">{{title}}</span>' +
+                  '<paper-ripple fit></paper-ripple>'+
+                  '</a>',
+        link: function($scope, $element, $attr, navController) {
+          $scope.icon = $attr.icon;
+          $scope.color = $attr.color;
+          $scope.title = $attr.title;
+          $scope.link = $attr.link;
+        }
+      };
+    }
+}());
+;(function() {
+  'use strict';
+
+  angular
+    .module('oxford.directives.toolbar.bottom', [])
+    .directive('oxToolbarBottom', oxToolbarBottom);
+    function oxToolbarBottom() {
+      return {
+        transclude: true,
+        replace: true,
+        restrict: 'EA',
+        scope: true,
+        template: '<div class="ox-toolbar ox-toolbar-bottom bg-{{color}}" ng-class="{\'ox-toolbar-has-title\': title }">' +
+          '<ox-toolbar-header ng-if="title">'+
+            '<ox-brand>{{title}}</ox-brand>'+
+          '</ox-toolbar-header>'+
+          '<ox-toolbox ng-if="title" ng-transclude></ox-toolbox>' +
+          '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+          if( $attr.fixed === "true" ){
+            $element.addClass('fixed-bottom')
+          }
+          $scope.color = $attr.color || 'default';
+
+          $scope.title = $attr.title;
+        }
+      };
+    }
+}());
+;(function() {
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.header',[])
+    .directive('oxToolbarHeader', oxToolbarHeader);
+    function oxToolbarHeader() {
+      return {
+        transclude: true,
+        replace: true,
+        restrict: 'EA',
+        scope: true,
+        template: '<div class="ox-toolbar-header">' +
+          '<div ng-transclude></div>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+
+        }
+      };
+    }
+}());
+;(function(){
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.left', [])
+    .directive('oxToolbarLeft', oxToolbarLeft);
+    function oxToolbarLeft($window) {
+      return {
+        transclude: true,
+        replace: true,
+        scope: true,
+        restrict: 'E',
+        template: '<div class="ox-toolbar ox-toolbar-left bg-{{color}}">' +
+          '<div ng-transclude></div>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+          document.querySelector('body').classList.add('has-ox-toolbar-left')
+          $scope.color = $attr.color || 'default'
+        }
+      };
+    }
+}).call(this);
+;(function(){
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.right', [])
+    .directive('oxToolbarRight', oxToolbarRight);
+    function oxToolbarRight($window) {
+      return {
+        transclude: true,
+        replace: true,
+        scope: true,
+        restrict: 'E',
+        template: '<div class="ox-toolbar ox-toolbar-right bg-{{color}}">' +
+          '<div ng-transclude></div>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+          document.querySelector('body').classList.add('has-ox-toolbar-right')
+          $scope.color = $attr.color || 'default'
+        }
+      };
+    }
+}).call(this);
+;(function() {
+  'use strict';
+
+  angular
+    .module('oxford.directives.toolbar.top', [])
+    .directive('oxToolbarTop', oxToolbarTop);
+    function oxToolbarTop() {
+      return {
+        transclude: true,
+        replace: true,
+        restrict: 'EA',
+        scope: true,
+        template: '<div class="ox-toolbar ox-toolbar-top bg-{{color}}" ng-class="{\'ox-toolbar-has-title\': title }">' +
+          '<ox-toolbar-header ng-if="title">'+
+            '<ox-brand>{{title}}</ox-brand>'+
+          '</ox-toolbar-header>'+
+          '<ox-toolbox ng-if="title" ng-transclude></ox-toolbox>' +
+          '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+          // if( $attr.fixed === "true" ){
+          //   $element.addClass('fixed-top')
+          // }
+          $scope.color = $attr.color || 'default';
+
+          $scope.title = $attr.title;
+        }
+      };
+    }
+}());
+;(function() {
+  'use strict';
+
+  angular.module('oxford.directives.toolbar', [
+    'oxford.directives.toolbar.header',
+    'oxford.directives.toolbar.brand',
+    'oxford.directives.toolbar.toolbox',
+    'oxford.directives.toolbar.tools',
+    'oxford.directives.toolbar.tool',
+    'oxford.directives.toolbar.top',
+    'oxford.directives.toolbar.bottom',
+    'oxford.directives.toolbar.left',
+    'oxford.directives.toolbar.left.toggle',
+    'oxford.directives.toolbar.right',
+    'oxford.directives.toolbar.right.toggle',
+  ])
+}());
+;(function() {
+  'use strict';
+  angular
+    .module('oxford.directives.toolbar.tools',[])
+    .directive('oxTools', oxTools);
+    function oxTools() {
+      return {
+        transclude: true,
+        replace: true,
+        restrict: 'EA',
+        scope: {
+          side: '=side'
+        },
+        template: '<div class="tools tools-{{side}}">' +
+          '<div ng-transclude></div>' +
+        '</div>',
+        link: function($scope, $element, $attr, navController) {
+          $scope.side = $attr.side;
+        }
+      };
+    }
 }());

@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
   <!-- endbuild -->
- <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html">
+ <!-- <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html"> -->
   <!-- <link rel="stylesheet" href="bootstrap-material-design/material-wfont.css"> -->
   <!-- <link rel="stylesheet" href="bootstrap-material-design/material.css"> -->
 
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/oxford.css">
   <link rel="stylesheet" href="/main.css">
   <!-- endinject -->
-
+  <link rel="stylesheet" href="/boot.css">
 
 </head>
 <body ng-app="demo" class="ease">
@@ -30,8 +30,63 @@
 
   </div> -->
 
-  <ox-dashboard>
-  <!-- Top ToolBar -->
+  <div class="flex-container">
+
+    <header>
+      <nav></nav>
+    </header>
+
+    <section>
+
+      <div class="section">
+        <aside class="aside-1">
+          <header>
+            <nav></nav>
+          </header>
+          <section></section>
+          <footer></footer>
+        </aside>
+
+        <section>
+          <header></header>
+          <section>
+            <section></section>
+            <aside class="aside-3"></aside>
+            <aside class="aside-4"></aside>
+          </section>
+          <footer></footer>
+        </section>
+
+        <aside class="aside-2">
+          <header>
+            <nav></nav>
+          </header>
+          <section></section>
+          <footer></footer>
+        </aside>
+      </div>
+    </section>
+
+
+
+
+<!--
+    <aside class="aside-1">
+      <header></header>
+      <nav></nav>
+      <footer></footer>
+    </aside>
+
+    <aside class="aside-2">
+      <header></header>
+      <nav></nav>
+      <footer></footer>
+    </aside>
+ -->
+    <!-- <footer></footer> -->
+  </div>
+
+  <!-- <ox-dashboard>
     <ox-toolbar-top title="Oxford" color="grey-700">
       <ox-tools side="left">
         <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
@@ -45,14 +100,12 @@
         <ox-tool color="lightblue-400" icon="github" link="#/home"></ox-tool>
       </ox-tools>
     </ox-toolbar-top>
-    <!-- Side NavBar -->
     <ox-toolbar-left color="grey-800">
       <ox-tool color="deeporange-400" icon="home" link="#/home" title="Home"></ox-tool>
       <ox-tool color="deeporange-300" icon="user" link="#/home" title="Users"></ox-tool>
       <ox-tool color="deeporange-200" icon="bar-chart-o" link="#/home" title="Graphs"></ox-tool>
     </ox-toolbar-left>
 
-      <!-- Ui View -->
     <ox-dashboard-content>
     </ox-dashboard-content>
 
@@ -75,7 +128,7 @@
       </ox-tools>
     </ox-toolbar-bottom>
 
-  </ox-dashboard>
+  </ox-dashboard> -->
 
   <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"/></script> -->
   <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js"></script> -->

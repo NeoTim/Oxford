@@ -14,6 +14,14 @@ gulp.task('stylus', function() {
     .pipe($.notify({message: 'Stylus Compiled'}))
     // Reload The Browser when changed;
 });
+gulp.task('stylus:bootstrap', function() {
+  return gulp.src(paths.boot)
+    .pipe($.stylus())
+    .pipe($.concat('boot.css'))
+    .pipe(gulp.dest('dist/'))
+    .pipe($.notify({message: 'Stylus Compiled'}))
+    // Reload The Browser when changed;
+});
 
 gulp.task('css', ['stylus'], function() {
   paths.css.unshift('src/lib/c3/c3.css');
@@ -48,7 +56,7 @@ gulp.task('concat:min', function() {
 
 gulp.task('uglify', ['concat', 'concat:min'], function() {
   return gulp.src('dist/oxford.min.js')
-    .pipe($.uglify())
+    // .pipe($.uglify())
     .pipe(gulp.dest('dist/'));
 });
 
@@ -111,6 +119,7 @@ gulp.task('inject', ['inject:bower'], function(){
 
 gulp.task('watch', function() {
   gulp.watch([paths.demo.index, paths.demo.scripts], $.livereload.changed);
+  gulp.watch( [paths.boot, './src/bootstrap/**/*.styl'],['stylus:bootstrap', $.livereload.changed]);
   gulp.watch( paths.src.scripts, ['jshint'] );
   gulp.watch( paths.src.stylesPath, ['css', $.livereload.changed]);
 });
@@ -126,7 +135,7 @@ gulp.task('watch', function() {
 
 // @NOTE 'serve' just runs the server.js and builds files
 // @NOTE 'server' runs the serve task and opens the browser
-gulp.task('serve',['demo', 'watch'], function(){
+gulp.task('serve', function(){
   server.run();
 });
 gulp.task('server', ['serve'], function(){
@@ -141,6 +150,6 @@ gulp.task('test', $.shell.task([
 
 gulp.task('demo', ['jshint', 'css', 'inject'])
 
-gulp.task('build', ['jshint', 'uglify', 'css', 'inject:js']);
+gulp.task('build', ['stylus:bootstrap', 'jshint', 'uglify', 'css', 'inject']);
 
-gulp.task('default', ['build', 'watch']);
+gulp.task('default', $.sequence('build', 'watch', 'serve'));
