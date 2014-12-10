@@ -12,10 +12,9 @@
           side: '=side'
         },
         template: '<div class="ox-tool-box">' +
-          '<div ng-transclude></div>' +
         '</div>',
         link: function($scope, $element, $attr, navController) {
-
+          $element.addClass('ox-tool-box')
         }
       };
     }

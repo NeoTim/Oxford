@@ -145,58 +145,6 @@
   }]);
 }(c3));
 
-;(function() {
-  'use strict';
-
-  angular.module('oxford.directives.dashboard', [
-
-  ])
-  .directive('oxDashboard', function() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<div class="dashboard">' +
-      '<div ng-transclude></div>' +
-      '</div>',
-      controller: function($scope) {
-
-      },
-      link: function() {
-      }
-    };
-  })
-  .directive('oxDashboardContent', function() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<div class="dashboard-content">' +
-                '<ox-dashboard-view></ox-dashboard-view>' +
-              '</div>',
-      controller: function($scope) {
-
-      },
-      link: function() {
-      }
-    };
-  })
-  .directive('oxDashboardView', function() {
-    return {
-      replace: true,
-      require: '^oxDashboard',
-      restrict: 'EA',
-      template: '<div class="dashboard-view">' +
-        '<div ui-view></div>' +
-      '</div>',
-      link: function($scope, $element, $attr, navController) {
-
-      }
-    };
-  });
-}());
 ;(function(){
   'use strict';
 
@@ -436,6 +384,385 @@
 }).call(this);
 ;(function() {
   'use strict';
+
+  angular.module('oxford.directives.dashboard', [
+
+  ])
+  .directive('oxDashboard', function($rootScope) {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<div class="x-dashboard" ng-transclude>' +
+      '</div>',
+      controller: function($scope, $rootScope) {
+        $rootScope.app = {
+          settings: {
+            foldLeft: true,
+            foldRight: true,
+            foldInnerLeft: true,
+            foldInnerRight: true,
+          }
+        }
+        $rootScope.$toggleLeft = function(){
+          $rootScope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft
+          $scope.$digest()
+        }
+        $rootScope.$toggleInnerLeft = function(){
+          $rootScope.app.settings.foldInnerLeft = !$rootScope.app.settings.foldInnerLeft
+          $scope.$digest()
+        }
+        $rootScope.$toggleRight = function(){
+          $rootScope.app.settings.foldRight = !$rootScope.app.settings.foldRight
+          $scope.$digest()
+        }
+        $rootScope.$toggleInnerRight = function(){
+          $rootScope.app.settings.foldInnerRight = !$rootScope.app.settings.foldInnerRight
+          $scope.$digest()
+        }
+      },
+      link: function(scope, element, attrs, ctrl, transclude) {
+
+        // $rootScope.$watch('app.settings', function(){
+
+        // })
+      }
+    };
+  })
+  .directive('oxDashboardHeader', function() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<header class="x-dashboard-header" ng-transclude>' +
+      '</header>',
+      controller: function($scope) {
+
+      },
+      link: function() {
+      }
+    };
+  })
+  .directive('oxDashboardContainer', function() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="x-dashboard-container" ng-transclude>' +
+      '</section>',
+      controller: function($scope) {
+
+      },
+      link: function() {
+      }
+    };
+  })
+
+  .directive('oxDashboardView', function() {
+    return {
+      replace: true,
+      require: '^oxDashboard',
+      restrict: 'EA',
+      template: '<div class="dashboard-view">' +
+        '<div ui-view></div>' +
+      '</div>',
+      link: function($scope, $element, $attr, navController) {
+
+      }
+    };
+  });
+}());
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxAsideContent', oxAsideContent);
+
+  function oxAsideContent() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<header class="x-aside-content" data-ng-transclude>' +
+              '</header>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxAsideFooter', oxAsideFooter);
+
+  function oxAsideFooter() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<header class="x-aside-footer" data-ng-transclude>' +
+              '</header>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxAsideHeader', oxAsideHeader);
+
+  function oxAsideHeader() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<header class="x-aside-header" data-ng-transclude>' +
+              '</header>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxAsideNav', oxAsideNav);
+
+  function oxAsideNav() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<nav class="x-aside-nav" data-ng-transclude>' +
+              '</nav>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxAside', oxAside);
+
+  function oxAside() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<aside class="x-aside x-aside-{{side}}" data-ng-transclude>' +
+              '</aside>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxContainer', oxContainer);
+
+  function oxContainer() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="x-container" data-ng-transclude>' +
+              '</section>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxContent', oxContent);
+
+  function oxContent() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="x-content" data-ng-transclude>' +
+              '</section>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxDashboardAside', oxDashboardAside);
+
+  function oxDashboardAside() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<aside class="x-dashboard-aside x-aside-{{side}}" data-ng-transclude>' +
+              '</aside>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxDashboardContent', oxDashboardContent);
+
+  function oxDashboardContent() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="x-dashboard-content" data-ng-transclude>' +
+              '</section>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxFooter', oxFooter);
+
+  function oxFooter() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<footer class="x-footer" data-ng-transclude>' +
+              '</footer>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('oxford.directives.dashboard')
+
+  .directive('oxHeader', oxHeader);
+
+  function oxHeader() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="x-header" data-ng-transclude>' +
+              '</section>',
+      controller: function($scope) {
+
+      },
+      link: function(scope, element, attrs) {
+        scope.side = attrs.side
+      }
+    };
+  }
+
+}).call(this);
+;(function() {
+  'use strict';
   angular
     .module('oxford.directives.toolbar.brand', [])
     .directive('oxBrand', oxBrand);
@@ -460,23 +787,60 @@
   'use strict';
   angular
     .module('oxford.directives.toolbar.left.toggle', [])
-    .directive('oxToggleToolbarLeft', oxToggleToolbarLeft);
-    function oxToggleToolbarLeft($window) {
+    .directive('oxToggleToolbarLeft', oxToggleToolbarLeft)
+    .directive('oxToggleToolbarInnerLeft', oxToggleToolbarInnerLeft);
+
+    function oxToggleToolbarLeft($window, $rootScope) {
       return {
         replace: true,
         restrict: 'EA',
         link: function($scope, $element, $attr, navController) {
           $element.addClass('toggle-toolbar-left');
-          $element.on('click', toggleNav);
+          // $element.prop('ng-click', '$toggleLeft()');
           var current_icon = $attr.icon;
           var next_icon = $attr.next;
-          function toggleNav(){
 
+          $element.on('click', function(){
+            $rootScope.$toggleLeft()
             angular.element($element).find('i').toggleClass('fa-'+current_icon)
             angular.element($element).find('i').toggleClass('fa-'+next_icon)
-            document.querySelector('body').classList.toggle('show-toolbar-left')
-            document.querySelector('body').classList.toggle('has-ox-toolbar-left')
-          }
+          });
+
+
+          // function toggleNav(){
+          //   $scope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft;
+          //   console.log($rootScope.app.settings);
+          //   document.querySelector('.x-dashboard').classList.toggle('fold-left')
+          //   // document.querySelector('x-dashboard').classList.toggle('has-ox-toolbar-left')
+          // }
+
+
+        }
+      };
+    }
+    function oxToggleToolbarInnerLeft($window, $rootScope) {
+      return {
+        replace: true,
+        restrict: 'EA',
+        link: function($scope, $element, $attr, navController) {
+          $element.addClass('toggle-toolbar-inner-left');
+          // $element.prop('ng-click', '$toggleLeft()');
+          var current_icon = $attr.icon;
+          var next_icon = $attr.next;
+
+          $element.on('click', function(){
+            $rootScope.$toggleInnerLeft()
+            angular.element($element).find('i').toggleClass('fa-'+current_icon)
+            angular.element($element).find('i').toggleClass('fa-'+next_icon)
+          });
+
+
+          // function toggleNav(){
+          //   $scope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft;
+          //   console.log($rootScope.app.settings);
+          //   document.querySelector('.x-dashboard').classList.toggle('fold-left')
+          //   // document.querySelector('x-dashboard').classList.toggle('has-ox-toolbar-left')
+          // }
 
 
         }
@@ -487,22 +851,44 @@
   'use strict';
   angular
     .module('oxford.directives.toolbar.right.toggle', [])
-    .directive('oxToggleToolbarRight', oxToggleToolbarRight);
-    function oxToggleToolbarRight($window) {
+    .directive('oxToggleToolbarRight', oxToggleToolbarRight)
+    .directive('oxToggleToolbarInnerRight', oxToggleToolbarInnerRight);
+    function oxToggleToolbarRight($window, $rootScope) {
       return {
         replace: true,
         restrict: 'EA',
         link: function($scope, $element, $attr, navController) {
           $element.addClass('toggle-toolbar-right');
-          $element.on('click', toggleNav);
+
           var current_icon = $attr.icon;
           var next_icon = $attr.next;
-          function toggleNav(){
+
+          $element.on('click', function(){
+            $rootScope.$toggleRight()
+            console.log($rootScope.app);
             angular.element($element).find('i').toggleClass('fa-'+current_icon)
             angular.element($element).find('i').toggleClass('fa-'+next_icon)
-            document.querySelector('body').classList.toggle('show-toolbar-right')
-            document.querySelector('body').classList.toggle('has-ox-toolbar-right')
-          }
+          });
+
+        }
+      };
+    }
+    function oxToggleToolbarInnerRight($window, $rootScope) {
+      return {
+        replace: true,
+        restrict: 'EA',
+        link: function($scope, $element, $attr, navController) {
+          $element.addClass('toggle-toolbar-inner-right');
+
+          var current_icon = $attr.icon;
+          var next_icon = $attr.next;
+
+          $element.on('click', function(){
+            $rootScope.$toggleInnerRight()
+            console.log($rootScope.app);
+            angular.element($element).find('i').toggleClass('fa-'+current_icon)
+            angular.element($element).find('i').toggleClass('fa-'+next_icon)
+          });
 
         }
       };
@@ -522,10 +908,9 @@
           side: '=side'
         },
         template: '<div class="ox-tool-box">' +
-          '<div ng-transclude></div>' +
         '</div>',
         link: function($scope, $element, $attr, navController) {
-
+          $element.addClass('ox-tool-box')
         }
       };
     }
@@ -534,8 +919,38 @@
   'use strict';
   angular
     .module('oxford.directives.toolbar.tool', [])
-    .directive('oxTool', oxTool);
-    function oxTool() {
+    .directive('oxTool', oxTool)
+    .directive('oxLink', oxLink);
+    function oxTool($rootScope) {
+      return {
+        transclude: true,
+        // replace: true,
+        restrict: 'E',
+        scope: true,
+        template: '<button class="tool button-{{color}}">' +
+                  '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
+                  '<span class="title">{{title}}</span>' +
+                  '<paper-ripple fit></paper-ripple>'+
+                  '</button>',
+        link: function($scope, $element, $attr, navController) {
+
+          $scope.icon = $attr.icon;
+          $scope.color = $attr.color;
+          $scope.title = $attr.title;
+          if($attr.oxToggle){
+            console.log($rootScope.app.settings[$attr.oxToggle]);
+            // $element.on('click', function(){
+            //   $rootScope.$apply(function(){
+            //     $rootScope.app.settings[$attr.oxToggle] = !$rootScope.app.settings[$attr.oxToggle]
+            //   })
+            //   console.log($rootScope.app.settings[$attr.oxToggle]);
+            // })
+          }
+
+        }
+      };
+    }
+    function oxLink($rootScope) {
       return {
         transclude: true,
         // replace: true,
@@ -546,16 +961,18 @@
           // link: '=link',
           // title: '=title'
         },
-        template: '<a href="{{link}}" class="tool button-{{color}}">' +
+        template: '<a ui-sref="{{link}}" class="tool button-{{color}}">' +
                   '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
                   '<span class="title">{{title}}</span>' +
                   '<paper-ripple fit></paper-ripple>'+
                   '</a>',
         link: function($scope, $element, $attr, navController) {
+
           $scope.icon = $attr.icon;
           $scope.color = $attr.color;
           $scope.title = $attr.title;
           $scope.link = $attr.link;
+
         }
       };
     }
@@ -668,16 +1085,18 @@
           '<ox-toolbar-header ng-if="title">'+
             '<ox-brand>{{title}}</ox-brand>'+
           '</ox-toolbar-header>'+
-          '<ox-toolbox ng-if="title" ng-transclude></ox-toolbox>' +
-          '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
         '</div>',
-        link: function($scope, $element, $attr, navController) {
+        link: function($scope, $element, $attr, navController, transclude) {
           // if( $attr.fixed === "true" ){
           //   $element.addClass('fixed-top')
           // }
           $scope.color = $attr.color || 'default';
 
           $scope.title = $attr.title;
+
+          transclude(function (clone){
+            $element.append(clone)
+          })
         }
       };
     }

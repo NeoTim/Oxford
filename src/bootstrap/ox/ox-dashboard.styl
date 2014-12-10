@@ -1,0 +1,57 @@
+create-dashboard()
+  height 100%
+  width 100%
+
+
+
+  &.fold-left
+    & > .x-dashboard-container
+      & > .x-dashboard-aside
+        &.x-aside-left
+          max-width 64px
+          min-width 64px
+
+    .toggle-toolbar-left
+      i.ox-icon
+        -webkit-transform: rotate(90deg)
+        -ms-transform: rotate(90deg)
+        transform: rotate(90deg)
+
+  &.fold-right
+    & > .x-dashboard-container
+      & > .x-dashboard-aside
+        &.x-aside-right
+          max-width 64px
+          min-width 64px
+
+    .toggle-toolbar-right
+      i.ox-icon
+        -webkit-transform: rotate(90deg)
+        -ms-transform: rotate(90deg)
+        transform: rotate(90deg)
+
+
+  // &.fold-left
+
+  // .toggle-toolbar-left
+  //   i.ox-icon
+  //     -webkit-transform: rotate(90deg)
+  //     -ms-transform: rotate(90deg)
+  //     transform: rotate(90deg)
+
+  // .ox-toolbar-left
+  //   width 250px
+
+  //   .tool
+  //     // Sets animation toggleTools
+  //     ox-tool-open-animation(left)
+  //     text-align left
+
+  //     .ox-icon
+  //       font-size 18px
+
+  //     .title
+  //       // Sets animation ox-tool-title-show
+  //       ox-tool-title-open-animation()
+  //       // Move title over 20%
+  //       right 20%

@@ -30,61 +30,81 @@
 
   </div> -->
 
-  <div class="flex-container">
+  <ox-dashboard data-ng-class="{
+    'show-left': !app.settings.foldLeft,
+    'show-right': !app.settings.foldRight,
+    'fold-left': app.settings.foldLeft,
+    'fold-right': app.settings.foldRight,
+    'show-inner-left': !app.settings.foldInnerLeft,
+    'fold-inner-left': app.settings.foldInnerLeft,
+    'fold-inner-right': app.settings.foldInnerRight,
+    'show-inner-right': !app.settings.foldInnerRight
+  }">
 
-    <header>
-      <nav></nav>
-    </header>
+    <ox-toolbar-top title="Oxford" color="grey-700">
+      <ox-tools side="left">
+        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
+        <ox-tool color="lightblue-300" icon="pencil" link="#/home"></ox-tool>
+        <ox-tool color="lightblue-700" icon="edit" link="#/home"></ox-tool>
+      </ox-tools>
+      <ox-tools side="right">
+        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-right next="close"></ox-tool>
+        <ox-tool color="lightblue-600" icon="clipboard" link="#/home"></ox-tool>
+        <ox-tool color="lightblue-500" icon="bar-chart-o" link="#/home"></ox-tool>
+        <ox-tool color="lightblue-400" icon="github" link="#/home"></ox-tool>
+      </ox-tools>
+    </ox-toolbar-top>
 
-    <section>
+    <ox-dashboard-container>
 
-      <div class="section">
-        <aside class="aside-1">
-          <header>
-            <nav></nav>
-          </header>
-          <section></section>
-          <footer></footer>
-        </aside>
+        <ox-dashboard-aside side="left">
+          <ox-aside-header>
+            <ox-aside-header>
+              <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
+            </ox-aside-header>
+          </ox-aside-header>
+          <ox-aside-content>
 
-        <section>
-          <header></header>
-          <section>
-            <section></section>
-            <aside class="aside-3"></aside>
-            <aside class="aside-4"></aside>
-          </section>
-          <footer></footer>
-        </section>
+          </ox-aside-content>
+          <ox-aside-footer>
+          </ox-aside-footer>
+        </ox-dashboard-aside>
 
-        <aside class="aside-2">
-          <header>
-            <nav></nav>
-          </header>
-          <section></section>
-          <footer></footer>
-        </aside>
-      </div>
-    </section>
+        <ox-dashboard-content>
 
+          <ox-toolbar-top color="grey-300">
+            <ox-tools side="left">
+              <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-inner-left next="chevron-down"></ox-tool>
+              <ox-tool color="lightblue-300" icon="pencil" link="#/home"></ox-tool>
+              <ox-tool color="lightblue-700" icon="edit" link="#/home"></ox-tool>
+            </ox-tools>
+          </ox-toolbar-top>
 
+          <ox-container>
 
+            <ox-content></ox-content>
+            <ox-aside side="left"></ox-aside>
+            <ox-aside side="right"></ox-aside>
 
-<!--
-    <aside class="aside-1">
-      <header></header>
-      <nav></nav>
-      <footer></footer>
-    </aside>
+          </ox-container>
 
-    <aside class="aside-2">
-      <header></header>
-      <nav></nav>
-      <footer></footer>
-    </aside>
- -->
-    <!-- <footer></footer> -->
-  </div>
+          <ox-footer></ox-footer>
+        </ox-dashboard-content>
+
+        <ox-dashboard-aside side="right">
+
+          <ox-aside-header>
+            <ox-aside-nav>
+            <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-right next="close"></ox-tool>
+            </ox-aside-nav>
+          </ox-aside-header>
+          <ox-aside-content></ox-aside-content>
+          <ox-aside-footer></ox-aside-footer>
+        </ox-dashboard-aside>
+
+    </ox-dashboard-container>
+
+  </ox-dashboard>
 
   <!-- <ox-dashboard>
     <ox-toolbar-top title="Oxford" color="grey-700">
@@ -150,7 +170,6 @@
   <script src="/scripts/main.js"></script>
   <script src="/scripts/main/directives/card.js"></script>
   <script src="/scripts/main/directives/chart.js"></script>
-  <script src="/scripts/main/directives/dashboard.js"></script>
   <script src="/scripts/main/directives/drag.js"></script>
   <script src="/scripts/main/directives/index.js"></script>
   <script src="/scripts/main/directives/list.js"></script>
@@ -167,6 +186,18 @@
   <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-top.js"></script>
   <script src="/scripts/main/directives/ox-toolbar/ox-toolbar.js"></script>
   <script src="/scripts/main/directives/ox-toolbar/ox-tools.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/dashboard.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-aside-content.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-aside-footer.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-aside-header.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-aside-nav.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-aside.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-container.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-content.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-dashboard-aside.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-dashboard-content.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-footer.js"></script>
+  <script src="/scripts/main/directives/ox-dashboard/ox-header.js"></script>
   <!-- endinject -->
 
   <!-- demo:js -->

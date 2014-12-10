@@ -14,16 +14,18 @@
           '<ox-toolbar-header ng-if="title">'+
             '<ox-brand>{{title}}</ox-brand>'+
           '</ox-toolbar-header>'+
-          '<ox-toolbox ng-if="title" ng-transclude></ox-toolbox>' +
-          '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
         '</div>',
-        link: function($scope, $element, $attr, navController) {
+        link: function($scope, $element, $attr, navController, transclude) {
           // if( $attr.fixed === "true" ){
           //   $element.addClass('fixed-top')
           // }
           $scope.color = $attr.color || 'default';
 
           $scope.title = $attr.title;
+
+          transclude(function (clone){
+            $element.append(clone)
+          })
         }
       };
     }

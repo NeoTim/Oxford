@@ -1,0 +1,100 @@
+.x-dashboard
+  flex-default-column()
+  create-dashboard()
+
+  & > *
+    flex-element(1 0 auto)
+
+  // ============== TOOLBAR
+  & > .ox-toolbar
+
+    flex-element(0 1 auto)
+    flex-align-self(stretch)
+    flex-default-row()
+    // create-dashboard-header()
+
+
+  // ============== DASHBORD -- CONTAINER
+  & > .x-dashboard-container
+
+    flex-element(1 1 auto)
+    flex-align-self(stretch)
+    flex-default-row()
+    create-dashboard-container()
+
+    // ============== DASHBORD -- CONTAINER -- ASIDE
+    & > .x-dashboard-aside
+      flex-element(2 1 auto)
+      flex-align-self(stretch)
+      flex-default-column()
+      create-dashboard-aside()
+      // padding 10px
+
+
+    // ============== DASHBORD -- CONTAINER -- CONTENT
+    & > .x-dashboard-content
+      flex-element(8 1 auto)
+      flex-align-self(stretch)
+      flex-default-column()
+
+      create-dashboard-content()
+      background-color grey
+
+      // ============== DASHBORD -- CONTAINER -- CONTENT -- TOOLBAR
+      & > .ox-toolbar
+        flex-element(1 0 auto)
+        flex-align-self(stretch)
+        background-color lightgrey
+
+
+      // ============== DASHBORD -- CONTAINER -- CONTENT -- CONTAIER
+      & > .x-container
+        flex-element(1 0 auto)
+        flex-align-self(stretch)
+        flex-default-row()
+
+        background-color lightyellow
+
+        // ============== DASHBORD -- CONTAINER -- CONTENT -- CONTAIER -- ASIDE
+        & > .x-aside
+          flex-element(2 1 auto)
+          flex-align-self(stretch)
+          flex-default-column()
+
+          create-aside()
+          background-color pink
+
+
+        // ============== DASHBORD -- CONTAINER -- CONTENT -- CONTAIER -- CONTENT
+        & > .x-content
+          flex-element(8 1 auto)
+          flex-order(2)
+          flex-align-self(stretch)
+
+      // ============== DASHBORD -- CONTAINER -- CONTENT -- FOOTER
+      & > .x-footer
+        flex-element(0 1 auto)
+        flex-order(4)
+        flex-align-self(stretch)
+
+        create-footer()
+        background-color red
+
+@media(min-width 768px)
+  .x-dashboard
+    & > .x-dashboard-header
+      flex-order(1)
+
+
+    & > .x-dashboard-container
+      flex-order(2)
+
+
+      & > .x-aside-left
+        flex-order(1)
+
+      & > .x-dashboard-content
+        flex-order(2)
+
+      & > .x-aside-right
+        flex-order(3)

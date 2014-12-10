@@ -6,13 +6,16 @@ toolbar-top-bottom-defaults(header = false)
   // position fixed
 
   height 50px
+  max-height 50px
+  min-height 50px
 
 /*
  * ox-toolbar-top default styles
  */
 top-toolbar-default()
   toolbar-top-bottom-defaults()
-  height 100px
+  // height 100px
+
   top 0
 
 /*
@@ -57,12 +60,20 @@ tool-toolbar-default()
  */
 top-toolbar-size-xs()
   height 50px
+  max-height 50px
+  min-height 50px
 top-toolbar-size-sm()
   height 50px
+  max-height 50px
+  min-height 50px
 top-toolbar-size-md()
   height 50px
+  max-height 50px
+  min-height 50px
 top-toolbar-size-lg()
   height 60px
+  max-height 60px
+  min-height 60px
 
 /*
  * ox-toolbar-bottom screen size styels
@@ -81,16 +92,24 @@ bottom-toolbar-size-lg()
  */
 top-toolbar-header-size-xs()
   height 50px
+  max-height 50px
+  min-height 50px
   width 100%
   text-align center
 top-toolbar-header-size-sm()
   height 50px
+  max-height 50px
+  min-height 50px
   width 250px
   float left
 top-toolbar-header-size-md()
   height 50px
+  max-height 50px
+  min-height 50px
 top-toolbar-header-size-lg()
   height 60px
+  max-height 60px
+  min-height 60px
 
 /*
  * ox-toolbar-header screen size styles
@@ -225,7 +244,9 @@ tool-toolbar-media()
       display none
 
     top-toolbar-default()
+    flex-default-row()
     // top-toolbar-media()
+    top-toolbar-media(false)
 
 
     // OX-TOOLBAR-HAS-TITLE
@@ -240,6 +261,7 @@ tool-toolbar-media()
       // > div.ox-brand > div > span
       top-toolbar-header-default()
       top-toolbar-header-media()
+      flex-element(0 1 auto)
 
       .ox-brand
         width 100%
@@ -257,24 +279,25 @@ tool-toolbar-media()
       // Mobile Height
       min-width 10%
       height 50px
+      flex-element(1 1 auto)
 
 
       @media (min-width: 800px)
         height 50px
 
       &.tools-left
-        float left
+
         .tool
           tool-toolbar-default()
           tool-toolbar-media()
           float left
+
       &.tools-right
-        float right
         .tool
           tool-toolbar-default()
           tool-toolbar-media()
-
           float right
+
 
   &.ox-toolbar-bottom
     bottom-toolbar-default()

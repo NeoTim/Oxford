@@ -1,0 +1,93 @@
+
+
+// ============== DASHBORD -- ASIDE
+create-dashboard-aside()
+  max-width 250px
+  min-width 250px
+
+  animation animate-content-back 300ms
+  transition all 200ms ease
+  -webkit-transition all 200ms ease
+
+
+  & > *
+    flex-element(1 0 auto)
+    flex-align-self(stretch)
+    width 100%
+    min-width 100%
+
+  // ============== DASHBORD -- ASIDE -- HEADER
+  & > .x-aside-header
+    flex-align-self(flex-start)
+    flex-default-row()
+
+    min-height 64px
+    max-height 64px
+    background lightblue
+
+  // ============== DASHBORD -- ASIDE -- CONTENT
+  & > .x-aside-content
+    flex-default-row(center)
+
+    background-color green
+
+  // ============== DASHBORD -- ASIDE -- FOOTER
+  & > .x-aside-footer
+    flex-align-self(flex-end)
+    flex-default-row()
+
+    min-height 50px
+    max-height 50px
+    background-color red
+
+  @media(min-width screen-size-xs)
+    & > .x-aside-header
+      max-height ox-toolbar-top-xs
+      min-height ox-toolbar-top-xs
+
+  @media(min-width screen-size-sm)
+    & > .x-aside-header
+      .toggle-toolbar-left,
+      .toggle-toolbar-right
+        display: none
+      max-height ox-toolbar-top-sm
+      min-height ox-toolbar-top-sm
+
+  @media(min-width screen-size-md)
+    & > .x-aside-header
+      max-height ox-toolbar-top-md
+      min-height ox-toolbar-top-md
+
+  @media(min-width screen-size-lg)
+    & > .x-aside-header
+      max-height ox-toolbar-top-lg
+      min-height ox-toolbar-top-lg
+
+
+
+
+@media(max-width screen-size-sm)
+
+  .x-dashboard
+    & > .x-dashboard-container
+      & > .x-dashboard-aside.x-aside-left,
+      & > .x-dashboard-aside.x-aside-right
+        position fixed
+        height 100%
+        max-width ox-toolbar-open-width-mobile
+        min-width ox-toolbar-open-width-mobile
+        top 0
+      & > .x-dashboard-aside.x-aside-left
+        left -80%
+      & > .x-dashboard-aside.x-aside-right
+        right -80%
+
+    &.show-left
+      & > .x-dashboard-container
+        & > .x-dashboard-aside.x-aside-left
+          left 0
+
+    &.show-right
+      & > .x-dashboard-container
+        & > .x-dashboard-aside.x-aside-right
+          right 0
