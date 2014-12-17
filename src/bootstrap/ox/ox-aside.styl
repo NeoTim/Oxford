@@ -1,3 +1,31 @@
+respond-media-aside()
+    max-width ox-toolbar-width-xs
+    min-width ox-toolbar-width-xs
+    +respond(small)
+      max-width ox-toolbar-width-sm
+      min-width ox-toolbar-width-sm
+    +respond(medium)
+      max-width ox-toolbar-width-md
+      min-width ox-toolbar-width-md
+    +respond(large)
+      max-width ox-toolbar-width-lg
+      min-width ox-toolbar-width-lg
+    +respond(huge)
+      max-width ox-toolbar-width-xl
+      min-width ox-toolbar-width-xl
+
+select-aside(action, side)
+  .x-dashboard
+    &.{action}-inner-{side}
+      & > .x-dashboard-container
+        & > .x-dashboard-content
+          & > .x-container
+            & > .x-aside.x-aside-{side}
+              block
+
+
+
+
 create-aside()
   max-width 200px
   min-width 200px
@@ -7,3 +35,17 @@ create-aside()
 
   &.x-aside-right
     flex-order(3)
+
++select-aside(fold, left)
+  respond-media-aside()
+
++select-aside(fold, right)
+  respond-media-aside()
+
++select-aside(hide, left)
+  display:none
++select-aside(hide, right)
+  display:none
+
+
+

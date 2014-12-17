@@ -1,6 +1,41 @@
 
+select-dashboard-aside(action, side)
+  .x-dashboard
+    &.{action}-{side}
+      & > .x-dashboard-container
+        & > .x-dashboard-aside.x-aside-{side}
+          block
 
-// ============== DASHBORD -- ASIDE
+sidebar-variant(sidebar-width, sidebar-header-height)
+  max-width sidebar-width
+  min-width sidebar-width
+
+  & > .x-aside-header
+      max-height sidebar-header-height
+      min-height sidebar-header-height
+
+
+create-dashboard-aside-xs()
+  sidebar-variant(ox-toolbar-width-xs, ox-toolbar-top-xs)
+
+create-dashboard-aside-sm()
+  sidebar-variant(ox-toolbar-width-sm, ox-toolbar-top-sm)
+  & > .x-aside-header
+    .toggle-toolbar-left,
+    .toggle-toolbar-right
+      display: none
+
+create-dashboard-aside-md()
+  sidebar-variant(ox-toolbar-width-md, ox-toolbar-top-md)
+
+create-dashboard-aside-lg()
+  sidebar-variant(ox-toolbar-width-lg, ox-toolbar-top-lg)
+
+create-dashboard-aside-xl()
+  sidebar-variant(ox-toolbar-width-xl, ox-toolbar-top-xl)
+
+
+// ============== DASHBORD -- ASIDE -- LG
 create-dashboard-aside()
   max-width 250px
   min-width 250px
@@ -21,8 +56,8 @@ create-dashboard-aside()
     flex-align-self(flex-start)
     flex-default-row()
 
-    min-height 64px
-    max-height 64px
+    min-height 50px
+    max-height 50px
     background lightblue
 
   // ============== DASHBORD -- ASIDE -- CONTENT
@@ -39,30 +74,6 @@ create-dashboard-aside()
     min-height 50px
     max-height 50px
     background-color red
-
-  @media(min-width screen-size-xs)
-    & > .x-aside-header
-      max-height ox-toolbar-top-xs
-      min-height ox-toolbar-top-xs
-
-  @media(min-width screen-size-sm)
-    & > .x-aside-header
-      .toggle-toolbar-left,
-      .toggle-toolbar-right
-        display: none
-      max-height ox-toolbar-top-sm
-      min-height ox-toolbar-top-sm
-
-  @media(min-width screen-size-md)
-    & > .x-aside-header
-      max-height ox-toolbar-top-md
-      min-height ox-toolbar-top-md
-
-  @media(min-width screen-size-lg)
-    & > .x-aside-header
-      max-height ox-toolbar-top-lg
-      min-height ox-toolbar-top-lg
-
 
 
 

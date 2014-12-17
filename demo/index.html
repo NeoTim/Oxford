@@ -9,28 +9,42 @@
     <link rel="stylesheet" href="../lib/c3/c3.css" />
     <link rel="stylesheet" href="../lib/toastr/toastr.css" />
     <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css" />
-    <!-- endbower -->
+  <!-- endbower -->
   <!-- endbuild -->
  <!-- <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html"> -->
   <!-- <link rel="stylesheet" href="bootstrap-material-design/material-wfont.css"> -->
   <!-- <link rel="stylesheet" href="bootstrap-material-design/material.css"> -->
 
   <!-- styles:css -->
-  <link rel="stylesheet" href="/oxford.css">
   <link rel="stylesheet" href="/main.css">
   <!-- endinject -->
-  <link rel="stylesheet" href="/boot.css">
+  <!-- <link rel="stylesheet" href="/boot.css"> -->
 
 </head>
-<body ng-app="demo" class="ease">
+<body ng-app="demo" ng-controller="Controller">
 
-  <!-- <div ng-controller="Controller">
+  <ui-flex bg="grey">
+    <flex-header bg="blue">
+      <button class="btn" ng-click="$toggleLeftFold()">Close Left</button>
+    </flex-header>
+    <flex-body bg="grey" gutters="none">
 
-    <div ox-chart data="data" pattern="material"></div>
+      <flex-main bg="grey-300">
+        <flex-body bg="grey-300"></flex-body>
+      </flex-main>
 
-  </div> -->
+      <flex-aside-left bg="grey-400">
+        <flex>
+          <a ui-sref="flex.buttons">Buttons</a>
+        </flex>
+      </flex-aside-left>
+      <flex-aside-right bg="grey-400"></flex-aside-left>
 
-  <ox-dashboard data-ng-class="{
+    </flex-body>
+    <flex-footer bg="red"></flex-footer>
+  </ui-flex>
+
+  <!-- <ox-dashboard data-ng-class="{
     'show-left': !app.settings.foldLeft,
     'show-right': !app.settings.foldRight,
     'fold-left': app.settings.foldLeft,
@@ -39,7 +53,7 @@
     'fold-inner-left': app.settings.foldInnerLeft,
     'fold-inner-right': app.settings.foldInnerRight,
     'show-inner-right': !app.settings.foldInnerRight
-  }">
+    }">
 
     <ox-toolbar-top title="Oxford" color="grey-700">
       <ox-tools side="left">
@@ -74,9 +88,7 @@
 
           <ox-toolbar-top color="grey-300">
             <ox-tools side="left">
-              <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-inner-left next="chevron-down"></ox-tool>
-              <ox-tool color="lightblue-300" icon="pencil" link="#/home"></ox-tool>
-              <ox-tool color="lightblue-700" icon="edit" link="#/home"></ox-tool>
+
             </ox-tools>
           </ox-toolbar-top>
 
@@ -103,8 +115,7 @@
         </ox-dashboard-aside>
 
     </ox-dashboard-container>
-
-  </ox-dashboard>
+  </ox-dashboard> -->
 
   <!-- <ox-dashboard>
     <ox-toolbar-top title="Oxford" color="grey-700">
@@ -174,18 +185,6 @@
   <script src="/scripts/main/directives/index.js"></script>
   <script src="/scripts/main/directives/list.js"></script>
   <script src="/scripts/main/directives/ripple.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-brand.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-left.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-right.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tool-box.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tool.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-bottom.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-header.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-left.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-right.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-top.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tools.js"></script>
   <script src="/scripts/main/directives/ox-dashboard/dashboard.js"></script>
   <script src="/scripts/main/directives/ox-dashboard/ox-aside-content.js"></script>
   <script src="/scripts/main/directives/ox-dashboard/ox-aside-footer.js"></script>
@@ -198,6 +197,26 @@
   <script src="/scripts/main/directives/ox-dashboard/ox-dashboard-content.js"></script>
   <script src="/scripts/main/directives/ox-dashboard/ox-footer.js"></script>
   <script src="/scripts/main/directives/ox-dashboard/ox-header.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-brand.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-left.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-right.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-tool-box.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-tool.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-bottom.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-header.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-left.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-right.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-top.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar.js"></script>
+  <script src="/scripts/main/directives/ox-toolbar/ox-tools.js"></script>
+  <script src="/scripts/main/directives/ui/flex-aside.js"></script>
+  <script src="/scripts/main/directives/ui/flex-body.js"></script>
+  <script src="/scripts/main/directives/ui/flex-footer.js"></script>
+  <script src="/scripts/main/directives/ui/flex-header.js"></script>
+  <script src="/scripts/main/directives/ui/flex-main.js"></script>
+  <script src="/scripts/main/directives/ui/flex-sets.js"></script>
+  <script src="/scripts/main/directives/ui/flex.js"></script>
+  <script src="/scripts/main/directives/ui/ui-flex.js"></script>
   <!-- endinject -->
 
   <!-- demo:js -->

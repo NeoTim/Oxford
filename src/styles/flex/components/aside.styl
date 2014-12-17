@@ -1,0 +1,117 @@
+toggles()
+  &.close-aside
+    close-aside(important)
+  &.open-aside
+    open-aside(important)
+  &.fold-aside
+    fold-aside(important)
+
+
+open-aside(imp=false)
+  if imp
+    flex 0 0 $aside-width !important
+    max-width $aside-width !important
+  else
+    flex 0 0 $aside-width
+    max-width $aside-width
+
+
+
+fold-aside(imp=false)
+  if imp
+    flex 0 0 $aside-fold-width !important
+    max-width $aside-fold-width !important
+  else
+    flex 0 0 $aside-fold-width
+    max-width $aside-fold-width
+
+
+
+close-aside(imp=false)
+  if imp
+    flex 0 0 0px !important
+    max-width 0px !important
+  else
+    flex 0 0 0px
+    max-width 0px
+
+create-flex-aside()
+  box-sizing border-box
+  position relative
+  flex-direction column
+  flex-wrap nowrap
+  display flex
+  transition all 200ms ease
+  -webkit-transition all 200ms ease
+
+
+fold-aside-media(size)
+  fold-aside()
+  +break-at(size)
+    open-aside()
+
+add-auto-folds()
+  toggles()
+  &.auto-fold
+    fold-aside-media(sm)
+  for size in $break-labels
+    &.fold-{size}
+      fold-aside-media(size)
+
+create-aside(size=false)
+  if size
+    .flex-aside-{size},
+    .flex-aside-left-{size}
+      order -1
+    .flex-aside-right-{size}
+      order 1
+
+    .flex-aside-{size},
+    .flex-aside-left-{size},
+    .flex-aside-right-{size}
+      create-flex-aside()
+
+      display none
+
+      open-aside()
+      add-auto-folds()
+      toggles()
+
+      +break-at(size)
+        display flex
+
+
+
+.flex-aside
+  create-flex-aside()
+  open-aside()
+  order -1
+  toggles()
+
+.flex-aside-left
+  create-flex-aside()
+  open-aside()
+  order -1
+  toggles()
+
+.flex-aside-right
+  create-flex-aside()
+  open-aside()
+  order 1
+  toggles()
+
+.flex-aside-fold
+  flex 0 0 $aside-fold-width
+
+.flex-aside,
+.flex-aside-left,
+.flex-aside-right
+  add-auto-folds()
+  toggles()
+
+
+
+// Create responsive sidebar visibility
+for size in $break-labels
+  create-aside(size)
+

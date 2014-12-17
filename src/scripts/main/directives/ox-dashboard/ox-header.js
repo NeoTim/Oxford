@@ -17,8 +17,9 @@
       controller: function($scope) {
 
       },
-      link: function(scope, element, attrs) {
+      link: function(scope, element, attrs, ctrl, transclude) {
         scope.side = attrs.side
+
       }
     };
   }

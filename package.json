@@ -53,6 +53,7 @@
     "test": "gulp test"
   },
   "dependencies": {
+    "gulp-rename": "^1.2.0",
     "gulp-sequence": "^0.3.1"
   }
 }

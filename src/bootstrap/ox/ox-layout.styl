@@ -11,7 +11,6 @@
     flex-element(0 1 auto)
     flex-align-self(stretch)
     flex-default-row()
-    // create-dashboard-header()
 
 
   // ============== DASHBORD -- CONTAINER
@@ -28,6 +27,7 @@
       flex-align-self(stretch)
       flex-default-column()
       create-dashboard-aside()
+
       // padding 10px
 
 
@@ -80,7 +80,9 @@
         create-footer()
         background-color red
 
-@media(min-width 768px)
+
+
+@media(min-width screen-size-sm)
   .x-dashboard
     & > .x-dashboard-header
       flex-order(1)

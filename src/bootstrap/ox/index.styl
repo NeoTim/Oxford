@@ -18,6 +18,29 @@ ox-toolbar-open-width-mobile = 80%
 ox-toolbar-open-width = 250px
 
 
+
+respond(device)
+  if device is tiny
+    @media( min-width screen-size-xs )
+      block
+  else if device is small
+    @media( min-width screen-size-sm )
+      block
+  else if device is medium
+    @media( min-width screen-size-md )
+      block
+  else if device is large
+    @media( min-width screen-size-lg )
+      block
+  else if device is huge
+    @media( min-width screen-size-xl )
+      block
+
+
+
+
+
+
 @import 'ox-dashboard'
 @import 'ox-dashboard-aside'
 @import 'ox-dashboard-header'

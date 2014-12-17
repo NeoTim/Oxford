@@ -15,20 +15,20 @@ gulp.task('stylus', function() {
     // Reload The Browser when changed;
 });
 gulp.task('stylus:bootstrap', function() {
-  return gulp.src(paths.boot)
-    .pipe($.stylus())
-    .pipe($.concat('boot.css'))
-    .pipe(gulp.dest('dist/'))
-    .pipe($.notify({message: 'Stylus Compiled'}))
+  // return gulp.src(paths.boot)
+  //   .pipe($.stylus())
+  //   .pipe($.concat('boot.css'))
+  //   .pipe(gulp.dest('dist/'))
+  //   .pipe($.notify({message: 'Stylus Compiled'}))
     // Reload The Browser when changed;
 });
 
-gulp.task('css', ['stylus'], function() {
-  paths.css.unshift('src/lib/c3/c3.css');
-  return gulp.src(paths.css)
-    .pipe($.concat('oxford.css'))
-    .pipe(gulp.dest('dist'))
-});
+// gulp.task('css', ['stylus'], function() {
+//   paths.css.unshift('src/lib/c3/c3.css');
+//   return gulp.src(paths.css)
+//     .pipe($.concat('oxford.css'))
+//     .pipe(gulp.dest('dist'))
+// });
 
 gulp.task('jshint', function() {
   return gulp.src(paths.scripts)
@@ -121,7 +121,7 @@ gulp.task('watch', function() {
   gulp.watch([paths.demo.index, paths.demo.scripts], $.livereload.changed);
   gulp.watch( [paths.boot, './src/bootstrap/**/*.styl'],['stylus:bootstrap', $.livereload.changed]);
   gulp.watch( paths.src.scripts, ['jshint'] );
-  gulp.watch( paths.src.stylesPath, ['css', $.livereload.changed]);
+  gulp.watch( paths.src.stylesPath, ['stylus', $.livereload.changed]);
 });
 
 /*
@@ -150,6 +150,6 @@ gulp.task('test', $.shell.task([
 
 gulp.task('demo', ['jshint', 'css', 'inject'])
 
-gulp.task('build', ['stylus:bootstrap', 'jshint', 'uglify', 'css', 'inject']);
+gulp.task('build', ['stylus','stylus:bootstrap', 'jshint', 'uglify', 'inject']);
 
 gulp.task('default', $.sequence('build', 'watch', 'serve'));

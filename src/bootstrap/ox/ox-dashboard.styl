@@ -1,15 +1,24 @@
+get-dashboard-aside-side(action, side)
+  &.{action}-{side}
+    & > .x-dashboard-container
+      & > .x-dashboard-aside
+        &.x-aside-{side}
+          block
+
 create-dashboard()
   height 100%
   width 100%
-
-
-
-  &.fold-left
-    & > .x-dashboard-container
-      & > .x-dashboard-aside
-        &.x-aside-left
-          max-width 64px
-          min-width 64px
+  +get-dashboard-aside-side(fold, left)
+    +respond(tiny)
+      create-dashboard-aside-xs()
+    +respond(small)
+      create-dashboard-aside-sm()
+    +respond(medium)
+      create-dashboard-aside-md()
+    +respond(large)
+      create-dashboard-aside-lg()
+    +respond(huge)
+      create-dashboard-aside-xl()
 
     .toggle-toolbar-left
       i.ox-icon
@@ -17,12 +26,17 @@ create-dashboard()
         -ms-transform: rotate(90deg)
         transform: rotate(90deg)
 
-  &.fold-right
-    & > .x-dashboard-container
-      & > .x-dashboard-aside
-        &.x-aside-right
-          max-width 64px
-          min-width 64px
+  +get-dashboard-aside-side(fold, right)
+    +respond(tiny)
+      create-dashboard-aside-xs()
+    +respond(small)
+      create-dashboard-aside-sm()
+    +respond(medium)
+      create-dashboard-aside-md()
+    +respond(large)
+      create-dashboard-aside-lg()
+    +respond(huge)
+      create-dashboard-aside-xl()
 
     .toggle-toolbar-right
       i.ox-icon
