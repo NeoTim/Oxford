@@ -1,0 +1,98 @@
+.flex-toolbar
+  flex-container()
+  flex-wrap(nowrap)
+  flex-element(0 0 $header-height)
+  flex-direction(row)
+  flex-order(-1)
+
+  z-index 4010
+  position relative
+  padding-right 16px
+  use-gutters()
+
+  &.has-shadow
+    box-shadow($header-box-shadow)
+
+  &.sub-toolbar
+    z-index 4009
+
+  &.toolbar-small
+    flex-element(0 0 $toolbar-height-small)
+  &.toolbar-medium
+    flex-element(0 0 $toolbar-height-medium)
+  &.toolbar-large
+    flex-element(0 0 $toolbar-height-large)
+  &.toolbar-huge
+    flex-element(0 0 $toolbar-height-huge)
+
+  .toolbar-brand
+    padding-left 16px
+
+    flex-container()
+    flex-element(0 0 $aside-width)
+    align-items(center)
+    align-content(center)
+    flex-direction(row)
+    flex-order(-1)
+
+    font-size 20px
+    font-weight 700
+    text-align center
+    color $text-light
+    box-shadow(1px 0px 0px rgba(0,0,0,.05))
+
+    .brand-heading
+      padding-left 20px
+
+    .brand-tool
+
+      flex-element(0 1 auto)
+      .tool
+        align-items(center)
+        color $text-light
+        padding 6px 0 0 0
+        font-weight bold
+        font-size 25px
+
+
+
+  .toolbar-tools
+    flex-order(1)
+    flex-element(0 2 auto)
+
+    flex-container()
+    flex-direction(row)
+    justify-content(flex-end)
+    flex-wrap(nowrap)
+    align-items(center)
+
+    &.side-right
+      flex-element(0 2 auto)
+      justify-content(flex-end)
+      flex-order(1)
+    &.side-left
+      padding 0 10px
+      justify-content(flex-start)
+      flex-element(1)
+      flex-order(0)
+
+    .input-group
+
+      height 36px
+      border-radius(2px)
+      backgrounds(rgba(255,255,255,.17))
+
+      // .input-group-icon
+
+
+
+      // input.flex-control
+
+
+
+.flex-brand
+  .brand
+    font-size 20px
+    font-weight bold
+
+

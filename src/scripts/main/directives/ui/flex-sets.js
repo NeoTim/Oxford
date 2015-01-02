@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('oxford.directives.dashboard')
+    .module('ui-flex')
 
     .directive('flexFull', flexFull)
     .directive('flexHalfs', flexHalfs)

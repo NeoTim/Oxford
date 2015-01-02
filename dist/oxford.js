@@ -1,154 +1,25 @@
 ;(function(){
   'use strict';
 
-  angular.module('oxford', [
-    'oxford.directives'
-  ]);
+  angular.module('ui-flex', [
+    'ui-flex.progressbar'
+  ])
+  .run( rootConfig )
+
+  function rootConfig($rootScope, $state){
+    $rootScope.$isActive = function(val){
+      if(val === $state.current.name){
+        return 'active'
+      }
+    }
+  }
+
 }());
 
 ;(function(){
   'use strict';
 
-  angular.module('oxford.directives.card', [])
-
-  .directive('oxCard', function() {
-    return {
-      restrict: 'EAC',
-      replace: true,
-      transclude: true,
-      template: '<div class="card-material" draggable>' +
-        '<div ng-transclude></div>' +
-      '</div>',
-      link: function(scope, element, attr) {
-      }
-    };
-  });
-}());
-;(function(c3){
-  'use strict';
-
-  angular.module('oxford.directives.chart', [])
-
-  .directive('oxChart', [function() {
-
-    //color patterns for chart coloring
-    var patterns = {
-      light: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896'],
-      dark: ['#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7'],
-      material: ['#e51c23', '#673ab7', '#5677fc', '#03a9f4', '#00bcd4', '#259b24', '#ffeb3b', '#ff9800']
-    };
-
-    //random number to attach to the chart id
-    var chartIdCounter = Math.floor((Math.random()*1000)+1);
-
-    return {
-      restrict: 'EA',
-      scope: {
-        data: '=',
-        options: '=',
-        axis: '=',
-        chart: '='
-      },
-      template: '<div draggable class="chart"></div>',
-      replace: true,
-      link: function(scope, element, attrs) {
-        var chartId;
-        var options = element.attr('options');
-
-        //available option to show gridlines for chart
-        if(attrs.grid === 'true') {
-          scope.grid = {
-            x: { show: true },
-            y: { show: true}
-          };
-        }
-        //option to view subchart
-        if(attrs.subchart === 'true') {
-          scope.subchart = {
-            show: true
-          };
-        }
-        //ability to change the color pattern
-        if(attrs.pattern) {
-          scope.color = {};
-          scope.color.pattern = patterns[attrs.pattern];
-        } else {
-          scope.color = {};
-          scope.color.pattern = patterns.dark ;
-        }
-
-        if(element.attr('id')) {
-          chartId = element.attr('id');
-        }
-        else {
-          chartId = 'c3-chart-' + chartIdCounter;
-          element.attr('id', chartId);
-          chartIdCounter += 1;
-        }
-
-        //generate c3 chart data
-        var chartData = {
-          bindto: '#' + element.attr('id'),
-          data: scope[options],
-          axis: scope.axis,
-          grid: scope.grid,
-          subchart: scope.subchart,
-          zoom: scope.zoom,
-          color: scope.color,
-          x: scope.x,
-          size: {
-            height: 300,
-            width: 950
-          }
-        };
-
-
-        if(!options) {
-          throw 'You must have an options attribute on your chart directive!';
-        }
-
-        //Reload the chart if the data changes
-        scope.$watch('options', function(data, prevData) {
-          if(chart) {
-            chart.load(data);
-            if(data.columns) {
-              if(data.columns.length < prevData.columns.length) {
-                chart.unload(['options' + prevData.columns.length]);
-              }
-            }
-            if(data.rows) {
-              if(data.rows.length < prevData.rows.length) {
-                chart.unload(['options' + prevData.rows.length]);
-              }
-            }
-          }
-        });
-
-        //run if there are changes to the chart
-        var onChartChanged = function(chart) {
-          if(chart) {
-            scope.data.type = chart;
-            chart.load(data);
-          }
-        };
-
-        //watch the chart for any changes
-        scope.$watch(function() {
-          return attrs.chart;
-        }, onChartChanged);
-
-        //Generating the chart
-        var chart = c3.generate(chartData);
-        scope.$parent.chart = chart;
-      }
-    };
-  }]);
-}(c3));
-
-;(function(){
-  'use strict';
-
-  angular.module('oxford.directives.drag', [])
+  angular.module('ui-flex', [])
 
   .directive('draggable', function() {
     var gridWidth = 200;
@@ -193,24 +64,14 @@
 ;(function(){
   'use strict';
 
-  angular.module('oxford.directives', [
-    'oxford.directives.chart',
-    'oxford.directives.dashboard',
-    'oxford.directives.toolbar',
-    'oxford.directives.list',
-    'oxford.directives.card',
-    'oxford.directives.drag',
-    'oxford.directives.ripple'
-  ]);
+  angular.module('ui-flex');
 
 }());
 
 ;(function() {
   'use strict';
 
-  angular.module('oxford.directives.list', [
-
-  ])
+  angular.module('ui-flex')
   .directive('oxList', function() {
     return {
       transclude: true,
@@ -242,7 +103,7 @@
 ;(function(){
 'use strict';
   angular
-    .module('oxford.directives.ripple', [])
+    .module('ui-flex')
     .directive('oxRipple', oxRipple);
 
     function oxRipple(){
@@ -382,120 +243,88 @@
     }
 
 }).call(this);
-;(function() {
+;(function(){
+
   'use strict';
 
-  angular.module('oxford.directives.dashboard', [
-
-  ])
-  .directive('oxDashboard', function($rootScope) {
+  angular.module('ui-flex')
+  .directive('flexActionGroup', flexActionGroup)
+  .animation('.display-group', function(){
     return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<div class="x-dashboard" ng-transclude>' +
-      '</div>',
-      controller: function($scope, $rootScope) {
-        $rootScope.app = {
-          settings: {
-            foldLeft: true,
-            foldRight: true,
-            foldInnerLeft: true,
-            foldInnerRight: true,
-          }
-        }
-        $rootScope.$toggleLeft = function(){
-          $rootScope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft
-          $scope.$digest()
-        }
-        $rootScope.$toggleInnerLeft = function(){
-          $rootScope.app.settings.foldInnerLeft = !$rootScope.app.settings.foldInnerLeft
-          $scope.$digest()
-        }
-        $rootScope.$toggleRight = function(){
-          $rootScope.app.settings.foldRight = !$rootScope.app.settings.foldRight
-          $scope.$digest()
-        }
-        $rootScope.$toggleInnerRight = function(){
-          $rootScope.app.settings.foldInnerRight = !$rootScope.app.settings.foldInnerRight
-          $scope.$digest()
-        }
-      },
-      link: function(scope, element, attrs, ctrl, transclude) {
+      addClass:addClass,
+      removeClass:removeClass
+    }
+    function addClass (element, className) {
+      var $btn = jQuery(element).find('.action-btn > button');
+      var $actions = jQuery(element).find('.actions > button');
+      var $icon = $btn.find('i');
+      // var $iconBefore = $btn.find('i:before');
 
-        // $rootScope.$watch('app.settings', function(){
+      TweenMax.to($icon, 0.05, {rotation:'0',  ease:Bounce.easeOut})
+      TweenMax.to($icon, 0.05, {className:'gcon-pencil', delay:0.18,  ease:Bounce.easeOut})
+      // TweenMax.staggerTo($actions, 0.2, {minHeight: '50px', minWidth:'50px',padding: '5px 12px',opacity: 1}, 0.05)
+    }
+    function removeClass (element, className) {
+      var $btn = jQuery(element).find('.action-btn > button');
+      var $actions = jQuery(element).find('.actions > button');
+      var $icon = $btn.find('i');
 
-        // })
-      }
-    };
-  })
-  .directive('oxDashboardHeader', function() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<header class="x-dashboard-header" ng-transclude>' +
-      '</header>',
-      controller: function($scope) {
-
-      },
-      link: function() {
-      }
-    };
-  })
-  .directive('oxDashboardContainer', function() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<section class="x-dashboard-container" ng-transclude>' +
-      '</section>',
-      controller: function($scope) {
-
-      },
-      link: function() {
-      }
-    };
-  })
-
-  .directive('oxDashboardView', function() {
-    return {
-      replace: true,
-      require: '^oxDashboard',
-      restrict: 'EA',
-      template: '<div class="dashboard-view">' +
-        '<div ui-view></div>' +
-      '</div>',
-      link: function($scope, $element, $attr, navController) {
-
-      }
-    };
+      TweenMax.to($icon, 0.08, {rotation:'-180', ease:Bounce.easeOut})
+      TweenMax.to($icon, 0.08, {className:'gcon-plus', ease:Bounce.easeOut}, 0.18)
+      // TweenMax.staggerTo($actions, 0.2, {minHeight: '0', minWidth:'0',padding: '0',opacity: 0}, 0.05)
+    }
   });
-}());
-;(function(){
 
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxAsideContent', oxAsideContent);
-
-  function oxAsideContent() {
+  function flexActionGroup($animate) {
     return {
       transclude: true,
       replace: true,
       restrict: 'EA',
-      scope: true,
-      template:'<header class="x-aside-content" data-ng-transclude>' +
-              '</header>',
-      controller: function($scope) {
-
+      scope: {
+        switch:'&onSwitch',
+        next:'@',
+        icon:'@',
+        round:'@',
+        raised:'@',
+        rotate:'@'
+      },
+      template:  '<div class="action-group" '+
+                    'ng-mouseenter="showActions()"'+
+                    'ng-mouseleave="showActions()"'+
+                    '>'+
+                    '<div class="actions" data-ng-transclude>' +
+                    '</div>' +
+                    '<div class="action-btn">'+
+                      '<button id="main-btn" class="flex-btn text-white {{bg}}" '+
+                        'data-ng-class="elementClasses">'+
+                      '<i data-ng-if="icon" next="{{next}}" class="{{icon}}"></i>' +
+                      '</button>'+
+                    '</div>'+
+                 '</div>',
+      controller: function($scope, $timeout){
+        $scope.displayActions = false;
+        $scope.showActions = function () {
+          $scope.displayActions = !$scope.displayActions;
+        };
       },
       link: function(scope, element, attrs) {
+        var activeClass = 'display-group';
 
+        scope.$watch('displayActions', function (bool) {
+          bool ?
+            ( $animate.addClass(element, activeClass) ) :
+            ( $animate.removeClass(element, activeClass) )
+        })
+
+        if(attrs.bg) scope.bg = 'bg-' + attrs.bg;
+        // element.addClass('btn-rotate-'+scope.rotate);
+        // scope.rotateIcon = 'btn-rotate-' + scope.rotate;
+        // scope.showNext = false;
+        scope.elementClasses = {
+          'btn-round':true,
+          'btn-raised':true,
+          'has-next':scope.next
+        };
       }
     };
   }
@@ -505,651 +334,282 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
-  .directive('oxAsideFooter', oxAsideFooter);
-
-  function oxAsideFooter() {
+  .directive('flexAnimate', flexAnimate)
+  .animation('.round-square', function(){
     return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<header class="x-aside-footer" data-ng-transclude>' +
-              '</header>',
-      controller: function($scope) {
+      addClass: function (element, className){
+        console.log('addClass');
+        TweenMax.to(element, 1, {width:'100px', height:'100px', borderRadius:'5px', ease:'Cubic.easeOut'})
+        TweenMax.to(element, 1, {width:'200px', height:'200px', borderRadius:'0px', ease:'Cubic.easeOut', delay:1})
 
       },
-      link: function(scope, element, attrs) {
-
+      removeClass:function(element, className){
+        TweenMax.to(element, 1, {width:'50px', height:'50px', borderRadius:'100%', ease:'Cubic.easeOut'})
       }
-    };
+    }
+  })
+  function flexAnimate($animate, $timeout, $interval) {
+    return function (scope, element, attrs) {
+
+      $interval(function(){
+
+        if(!scope[attrs.flexAnimate]){
+
+          scope[attrs.flexAnimate] = 'round-square'
+
+        } else if (scope[attrs.flexAnimate] === 'round-square'){
+
+          scope[attrs.flexAnimate] = 'square'
+
+        } else if(scope[attrs.flexAnimate] === 'square'){
+          scope[attrs.flexAnimate] = false
+        } else {
+          scope[attrs.flexAnimate] = false
+        }
+
+        console.log(scope[attrs.flexAnimate]);
+      }, 2000);
+      // $timeout(function(){
+      //   scope[attrs.flexAnimate] = 'square';
+      // }, 2000)
+
+      scope.$watch(attrs.flexAnimate, function (value){
+        if (value === 'round-square'){
+
+          $animate.addClass(element, value)
+
+        } else {
+
+          $animate.removeClass(element, 'round-square')
+        }
+
+      })
+    }
   }
 
 }).call(this);
-;(function(){
+;(function(tmax){
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
-  .directive('oxAsideHeader', oxAsideHeader);
-
-  function oxAsideHeader() {
+  .directive('flexBtn', flexBtn)
+  .directive('nextIcon', nextIcon)
+  .controller('nextIconController', nextIconController)
+  .animation('.next-icon-active', function(){
     return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<header class="x-aside-header" data-ng-transclude>' +
-              '</header>',
-      controller: function($scope) {
+      addClass:addClass,
+      removeClass:removeClass
+    }
 
-      },
-      link: function(scope, element, attrs) {
+    function addClass(element, className){
+      tmax.to(element, 0.1, {transform:'rotate(90deg)'});
 
-      }
-    };
+    }
+    function removeClass(element, className){
+      tmax.to(element, 0.1, {transform:'rotate(0)', content: "\e6fb"});
+    }
+  });
+
+  function nextIconController(){
+    this.isRotated = false;
+    this.startRotation = function(){
+      this.isRotated = !this.isRotated
+      console.log('isRotated = ', this.isRotated);
+    }
+  }
+  function nextIcon($animate,$timeout){
+    return function (scope, element, attrs){
+      // element.addClass('has-next')
+      scope.$watch(attrs.nextIcon, function (bool){
+        if(bool){
+          $animate.addClass(element, 'next-icon-active');
+          $timeout(function(){
+            element.addClass(scope.next)
+          }, 100)
+        } else {
+          $animate.removeClass(element, 'next-icon-active');
+          $timeout(function(){
+            element.removeClass(scope.next)
+          }, 100)
+        }
+      });
+
+    }
   }
 
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxAsideNav', oxAsideNav);
-
-  function oxAsideNav() {
+  function flexBtn($animate) {
     return {
       transclude: true,
       replace: true,
       restrict: 'EA',
-      scope: true,
-      template:'<nav class="x-aside-nav" data-ng-transclude>' +
-              '</nav>',
-      controller: function($scope) {
-
+      scope: {
+        switch:'&onSwitch',
+        next:'@',
+        icon:'@',
+        round:'@',
+        raised:'@',
+        rotate:'@'
       },
-      link: function(scope, element, attrs) {
-
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxAside', oxAside);
-
-  function oxAside() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<aside class="x-aside x-aside-{{side}}" data-ng-transclude>' +
-              '</aside>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxContainer', oxContainer);
-
-  function oxContainer() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<section class="x-container" data-ng-transclude>' +
-              '</section>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxContent', oxContent);
-
-  function oxContent() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<section class="x-content" data-ng-transclude>' +
-              '</section>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxDashboardAside', oxDashboardAside);
-
-  function oxDashboardAside() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<aside class="x-dashboard-aside x-aside-{{side}}" data-ng-transclude>' +
-              '</aside>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxDashboardContent', oxDashboardContent);
-
-  function oxDashboardContent() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<section class="x-dashboard-content" data-ng-transclude>' +
-              '</section>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxFooter', oxFooter);
-
-  function oxFooter() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<footer class="x-footer" data-ng-transclude>' +
-              '</footer>',
-      controller: function($scope) {
-
-      },
-      link: function(scope, element, attrs) {
-        scope.side = attrs.side
-      }
-    };
-  }
-
-}).call(this);
-;(function(){
-
-  'use strict';
-
-  angular.module('oxford.directives.dashboard')
-
-  .directive('oxHeader', oxHeader);
-
-  function oxHeader() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template:'<section class="x-header" data-ng-transclude>' +
-              '</section>',
-      controller: function($scope) {
-
-      },
+      template:'<button class="flex-btn {{bg}}"' +
+                'data-ng-mouseenter="vm.startRotation()"' +
+                'data-ng-mouseleave="vm.startRotation()"' +
+                'data-ng-class="elementClasses">'+
+              '<i data-ng-if="icon" next="{{next}}" next-icon="vm.isRotated" class="{{icon}}" ></i>' +
+              '</button>',
+      controller: 'nextIconController as vm',
       link: function(scope, element, attrs, ctrl, transclude) {
-        scope.side = attrs.side
 
-      }
-    };
-  }
-
-}).call(this);
-;(function() {
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.brand', [])
-    .directive('oxBrand', oxBrand);
-  function oxBrand() {
-    return {
-      transclude: true,
-      replace: true,
-      restrict: 'EA',
-      scope: true,
-      template: '<div class="ox-brand">' +
-        // '<a class="toolbar-toggle-left"><i class="fa fa-bars"></i></a>' +
-        '<div ng-transclude></div>' +
-        // '<a class="toolbar-toggle-left"><i class="fa fa-bars"></i></a>' +
-      '</div>',
-      link: function($scope, $element, $attr, navController) {
-
-      }
-    };
-  }
-}());
-;(function(){
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.left.toggle', [])
-    .directive('oxToggleToolbarLeft', oxToggleToolbarLeft)
-    .directive('oxToggleToolbarInnerLeft', oxToggleToolbarInnerLeft);
-
-    function oxToggleToolbarLeft($window, $rootScope) {
-      return {
-        replace: true,
-        restrict: 'EA',
-        link: function($scope, $element, $attr, navController) {
-          $element.addClass('toggle-toolbar-left');
-          // $element.prop('ng-click', '$toggleLeft()');
-          var current_icon = $attr.icon;
-          var next_icon = $attr.next;
-
-          $element.on('click', function(){
-            $rootScope.$toggleLeft()
-            angular.element($element).find('i').toggleClass('fa-'+current_icon)
-            angular.element($element).find('i').toggleClass('fa-'+next_icon)
-          });
-
-
-          // function toggleNav(){
-          //   $scope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft;
-          //   console.log($rootScope.app.settings);
-          //   document.querySelector('.x-dashboard').classList.toggle('fold-left')
-          //   // document.querySelector('x-dashboard').classList.toggle('has-ox-toolbar-left')
-          // }
-
-
-        }
-      };
-    }
-    function oxToggleToolbarInnerLeft($window, $rootScope) {
-      return {
-        replace: true,
-        restrict: 'EA',
-        link: function($scope, $element, $attr, navController) {
-          $element.addClass('toggle-toolbar-inner-left');
-          // $element.prop('ng-click', '$toggleLeft()');
-          var current_icon = $attr.icon;
-          var next_icon = $attr.next;
-
-          $element.on('click', function(){
-            $rootScope.$toggleInnerLeft()
-            angular.element($element).find('i').toggleClass('fa-'+current_icon)
-            angular.element($element).find('i').toggleClass('fa-'+next_icon)
-          });
-
-
-          // function toggleNav(){
-          //   $scope.app.settings.foldLeft = !$rootScope.app.settings.foldLeft;
-          //   console.log($rootScope.app.settings);
-          //   document.querySelector('.x-dashboard').classList.toggle('fold-left')
-          //   // document.querySelector('x-dashboard').classList.toggle('has-ox-toolbar-left')
-          // }
-
-
-        }
-      };
-    }
-}).call(this);
-;(function(){
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.right.toggle', [])
-    .directive('oxToggleToolbarRight', oxToggleToolbarRight)
-    .directive('oxToggleToolbarInnerRight', oxToggleToolbarInnerRight);
-    function oxToggleToolbarRight($window, $rootScope) {
-      return {
-        replace: true,
-        restrict: 'EA',
-        link: function($scope, $element, $attr, navController) {
-          $element.addClass('toggle-toolbar-right');
-
-          var current_icon = $attr.icon;
-          var next_icon = $attr.next;
-
-          $element.on('click', function(){
-            $rootScope.$toggleRight()
-            console.log($rootScope.app);
-            angular.element($element).find('i').toggleClass('fa-'+current_icon)
-            angular.element($element).find('i').toggleClass('fa-'+next_icon)
-          });
-
-        }
-      };
-    }
-    function oxToggleToolbarInnerRight($window, $rootScope) {
-      return {
-        replace: true,
-        restrict: 'EA',
-        link: function($scope, $element, $attr, navController) {
-          $element.addClass('toggle-toolbar-inner-right');
-
-          var current_icon = $attr.icon;
-          var next_icon = $attr.next;
-
-          $element.on('click', function(){
-            $rootScope.$toggleInnerRight()
-            console.log($rootScope.app);
-            angular.element($element).find('i').toggleClass('fa-'+current_icon)
-            angular.element($element).find('i').toggleClass('fa-'+next_icon)
-          });
-
-        }
-      };
-    }
-}).call(this);
-;(function() {
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.toolbox',[])
-    .directive('oxToolBox', oxToolBox);
-    function oxToolBox() {
-      return {
-        transclude: true,
-        replace: true,
-        restrict: 'EA',
-        scope: {
-          side: '=side'
-        },
-        template: '<div class="ox-tool-box">' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-          $element.addClass('ox-tool-box')
-        }
-      };
-    }
-}());
-;(function() {
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.tool', [])
-    .directive('oxTool', oxTool)
-    .directive('oxLink', oxLink);
-    function oxTool($rootScope) {
-      return {
-        transclude: true,
-        // replace: true,
-        restrict: 'E',
-        scope: true,
-        template: '<button class="tool button-{{color}}">' +
-                  '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
-                  '<span class="title">{{title}}</span>' +
-                  '<paper-ripple fit></paper-ripple>'+
-                  '</button>',
-        link: function($scope, $element, $attr, navController) {
-
-          $scope.icon = $attr.icon;
-          $scope.color = $attr.color;
-          $scope.title = $attr.title;
-          if($attr.oxToggle){
-            console.log($rootScope.app.settings[$attr.oxToggle]);
-            // $element.on('click', function(){
-            //   $rootScope.$apply(function(){
-            //     $rootScope.app.settings[$attr.oxToggle] = !$rootScope.app.settings[$attr.oxToggle]
-            //   })
-            //   console.log($rootScope.app.settings[$attr.oxToggle]);
-            // })
-          }
-
-        }
-      };
-    }
-    function oxLink($rootScope) {
-      return {
-        transclude: true,
-        // replace: true,
-        restrict: 'E',
-        scope: {
-          // color: '=color',
-          // icon: '=',
-          // link: '=link',
-          // title: '=title'
-        },
-        template: '<a ui-sref="{{link}}" class="tool button-{{color}}">' +
-                  '<i ng-if="icon" class="ox-icon fa fa-{{icon}}"></i>' +
-                  '<span class="title">{{title}}</span>' +
-                  '<paper-ripple fit></paper-ripple>'+
-                  '</a>',
-        link: function($scope, $element, $attr, navController) {
-
-          $scope.icon = $attr.icon;
-          $scope.color = $attr.color;
-          $scope.title = $attr.title;
-          $scope.link = $attr.link;
-
-        }
-      };
-    }
-}());
-;(function() {
-  'use strict';
-
-  angular
-    .module('oxford.directives.toolbar.bottom', [])
-    .directive('oxToolbarBottom', oxToolbarBottom);
-    function oxToolbarBottom() {
-      return {
-        transclude: true,
-        replace: true,
-        restrict: 'EA',
-        scope: true,
-        template: '<div class="ox-toolbar ox-toolbar-bottom bg-{{color}}" ng-class="{\'ox-toolbar-has-title\': title }">' +
-          '<ox-toolbar-header ng-if="title">'+
-            '<ox-brand>{{title}}</ox-brand>'+
-          '</ox-toolbar-header>'+
-          '<ox-toolbox ng-if="title" ng-transclude></ox-toolbox>' +
-          '<ox-toolbox ng-if="!title" ng-transclude></ox-toolbox>' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-          if( $attr.fixed === "true" ){
-            $element.addClass('fixed-bottom')
-          }
-          $scope.color = $attr.color || 'default';
-
-          $scope.title = $attr.title;
-        }
-      };
-    }
-}());
-;(function() {
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.header',[])
-    .directive('oxToolbarHeader', oxToolbarHeader);
-    function oxToolbarHeader() {
-      return {
-        transclude: true,
-        replace: true,
-        restrict: 'EA',
-        scope: true,
-        template: '<div class="ox-toolbar-header">' +
-          '<div ng-transclude></div>' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-
-        }
-      };
-    }
-}());
-;(function(){
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.left', [])
-    .directive('oxToolbarLeft', oxToolbarLeft);
-    function oxToolbarLeft($window) {
-      return {
-        transclude: true,
-        replace: true,
-        scope: true,
-        restrict: 'E',
-        template: '<div class="ox-toolbar ox-toolbar-left bg-{{color}}">' +
-          '<div ng-transclude></div>' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-          document.querySelector('body').classList.add('has-ox-toolbar-left')
-          $scope.color = $attr.color || 'default'
-        }
-      };
-    }
-}).call(this);
-;(function(){
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.right', [])
-    .directive('oxToolbarRight', oxToolbarRight);
-    function oxToolbarRight($window) {
-      return {
-        transclude: true,
-        replace: true,
-        scope: true,
-        restrict: 'E',
-        template: '<div class="ox-toolbar ox-toolbar-right bg-{{color}}">' +
-          '<div ng-transclude></div>' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-          document.querySelector('body').classList.add('has-ox-toolbar-right')
-          $scope.color = $attr.color || 'default'
-        }
-      };
-    }
-}).call(this);
-;(function() {
-  'use strict';
-
-  angular
-    .module('oxford.directives.toolbar.top', [])
-    .directive('oxToolbarTop', oxToolbarTop);
-    function oxToolbarTop() {
-      return {
-        transclude: true,
-        replace: true,
-        restrict: 'EA',
-        scope: true,
-        template: '<div class="ox-toolbar ox-toolbar-top bg-{{color}}" ng-class="{\'ox-toolbar-has-title\': title }">' +
-          '<ox-toolbar-header ng-if="title">'+
-            '<ox-brand>{{title}}</ox-brand>'+
-          '</ox-toolbar-header>'+
-        '</div>',
-        link: function($scope, $element, $attr, navController, transclude) {
-          // if( $attr.fixed === "true" ){
-          //   $element.addClass('fixed-top')
-          // }
-          $scope.color = $attr.color || 'default';
-
-          $scope.title = $attr.title;
-
+        if(attrs.bg) scope.bg = 'bg-' + attrs.bg;
+        var rotate = 'btn-rotate-' + scope.rotate;
+        scope.rotateIcon = 'btn-rotate-' + scope.rotate;
+        scope.showNext = false;
+        scope.elementClasses = {
+          'btn-round':scope.round,
+          'btn-raised':scope.raised,
+          'has-next':scope.next,
+          'active':scope.startRotate
+        };
+        if(!scope.icon){
           transclude(function (clone){
-            $element.append(clone)
+            element.append(clone)
           })
         }
-      };
-    }
-}());
-;(function() {
-  'use strict';
+      }
+    };
+  }
 
-  angular.module('oxford.directives.toolbar', [
-    'oxford.directives.toolbar.header',
-    'oxford.directives.toolbar.brand',
-    'oxford.directives.toolbar.toolbox',
-    'oxford.directives.toolbar.tools',
-    'oxford.directives.toolbar.tool',
-    'oxford.directives.toolbar.top',
-    'oxford.directives.toolbar.bottom',
-    'oxford.directives.toolbar.left',
-    'oxford.directives.toolbar.left.toggle',
-    'oxford.directives.toolbar.right',
-    'oxford.directives.toolbar.right.toggle',
-  ])
-}());
-;(function() {
-  'use strict';
-  angular
-    .module('oxford.directives.toolbar.tools',[])
-    .directive('oxTools', oxTools);
-    function oxTools() {
-      return {
-        transclude: true,
-        replace: true,
-        restrict: 'EA',
-        scope: {
-          side: '=side'
-        },
-        template: '<div class="tools tools-{{side}}">' +
-          '<div ng-transclude></div>' +
-        '</div>',
-        link: function($scope, $element, $attr, navController) {
-          $scope.side = $attr.side;
-        }
-      };
-    }
-}());
+}).call(this, TweenMax);
 ;(function(){
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
-  .directive('flexAside', flexAside)
-  .directive('flexAsideLeft', flexAsideLeft)
-  .directive('flexAsideRight', flexAsideRight);
+  .directive('flexTool', flexTool);
+
+  function flexTool() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<button class="tool {{bg}}">' +
+              '<i data-ng-if="icon" class="{{icon}}"></i>' +
+              '</button>',
+
+      link: function(scope, element, attrs) {
+        if(attrs.bg) scope.bg = 'bg-' + attrs.bg;
+
+        scope.icon = attrs.icon;
+
+        if(scope.icon.split('-')[0] === 'fa'){
+          scope.icon = 'fa ' + scope.icon
+        }
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('toolbarBrand', toolbarBrand);
+
+  function toolbarBrand() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<div class="toolbar-brand" data-ng-transclude>' +
+              '</div>',
+
+      link: function(scope, element, attrs) {
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('toolbarTools', toolbarTools);
+
+  function toolbarTools() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<div class="toolbar-tools {{side}}" data-ng-transclude>' +
+              '</div>',
+
+      link: function(scope, element, attrs) {
+        var side = attrs.side || 'right';
+        scope.side = 'side-' + side;
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular
+    .module('ui-flex')
+    .directive('flexAside', flexAside)
+    .directive('flexAsideLeft', flexAsideLeft)
+    .directive('flexAsideRight', flexAsideRight)
+    .run( runConfig );
+
+  function runConfig($rootScope){
+    $rootScope.$flex = $rootScope.$flex || {};
+
+    $rootScope.$flex = $rootScope.$flex || {};
+
+    $rootScope.$flex.foldLeft = false;
+    $rootScope.$flex.closeLeft = false;
+    $rootScope.$flex.foldRight = false;
+    $rootScope.$flex.closeRight = false;
+
+
+    $rootScope.$toggleLeft = function(){
+      $rootScope.$flex.closeLeft = !$rootScope.$flex.closeLeft;
+    }
+    $rootScope.$toggleLeftFold = function(){
+      $rootScope.$flex.foldLeft = !$rootScope.$flex.foldLeft;
+    }
+    $rootScope.$closeLeft = function(){
+      $rootScope.$flex.closeLeft = true;
+    }
+    $rootScope.$openLeft = function(){
+      $rootScope.$flex.closeLeft = false;
+    }
+    $rootScope.$toggleRight = function(){
+      $rootScope.$flex.closeRight = !$rootScope.$flex.closeRight;
+    }
+    $rootScope.$toggleRightFold = function(){
+      $rootScope.$flex.foldRight = !$rootScope.$flex.foldRight;
+    }
+    $rootScope.$closeRight = function(){
+      $rootScope.$flex.closeRight = true;
+    }
+    $rootScope.$openRight = function(){
+      $rootScope.$flex.closeRight = false;
+    }
+  }
 
   function flexAside() {
     return {
@@ -1174,7 +634,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<aside class="flex-aside-left {{bg}}" data-ng-transclude>' +
+      template:'<aside class="flex-aside-left {{bg}}"' +
+                'data-ng-class="{'  +
+                  '\'close-aside\': $flex.closeLeft,'+
+                  '\'fold-aside\': $flex.foldLeft'+
+                '}"' +
+                'data-ng-transclude>' +
               '</aside>',
 
       link: function(scope, element, attrs) {
@@ -1189,7 +654,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<aside class="flex-aside-right {{bg}}" data-ng-transclude>' +
+      template:'<aside class="flex-aside-right {{bg}}"' +
+                'data-ng-class="{'  +
+                  '\'close-aside\': $flex.closeRight,'+
+                  '\'fold-aside\': $flex.foldRight'+
+                '}"' +
+                'data-ng-transclude>' +
               '</aside>',
 
       link: function(scope, element, attrs) {
@@ -1204,7 +674,7 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
   .directive('flexBody', flexBody);
 
@@ -1230,7 +700,98 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
+
+  .directive('flexCard', flexCard);
+
+  function flexCard() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<div class="flex-card {{bg}}">' +
+                '<div data-ng-if="title" class="card-heading">{{title}}</div>'+
+
+                // '<div ng class="flex-footer"></div>'+
+              '</div>',
+
+      link: function(scope, element, attrs, controller, transclude) {
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        scope.title = attrs.title;
+        // scope.body = attrs.body;
+        transclude(function (clone){
+          element.append(clone)
+        })
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('flexColumn', flexColumn);
+
+  function flexColumn() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<div class="flex-column {{bg}} " data-ng-transclude>' +
+              '</div>',
+
+      link: function(scope, element, attrs) {
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('flexContent', flexContent);
+
+  function flexContent() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: {
+        scroll:'='
+      },
+      template:'<div class="flex-content" data-ng-class="conditionalClasses" data-ng-transclude>' +
+              '</div>',
+
+      link: function(scope, element, attrs) {
+
+        scope.hasHeader = attrs.hasHeader || false
+        scope.hasPads = attrs.hasPads || false
+        scope.conditionalClasses = {
+          'hasHeader': scope.hasHeader,
+          'hasPads': scope.hasPads,
+          'content-scroll':scope.scroll
+        }
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
 
   .directive('flexFooter', flexFooter);
 
@@ -1256,7 +817,7 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
   .directive('flexHeader', flexHeader);
 
@@ -1265,13 +826,21 @@
       transclude: true,
       replace: true,
       restrict: 'EA',
-      scope: true,
-      template:'<header class="flex-header {{bg}} " data-ng-transclude>' +
+      scope: {
+        sub: '='
+      },
+      template:'<header class="flex-header {{size}} {{bg}} " data-ng-transclude>' +
               '</header>',
 
       link: function(scope, element, attrs) {
-        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
 
+        var size = 'header-'
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        if(attrs.size) scope.size = size + attrs.size;
+
+        scope.ngClasses = {
+          'sub-header':scope.sub
+        }
 
       }
     };
@@ -1279,25 +848,157 @@
 
 }).call(this);
 ;(function(){
+  'use strict'
+  angular
+    .module('ui-flex')
+    .constant('flexProgressConfig', {
+      animate: true,
+      max: 100
+    })
+    .controller('FlexProgressController', FlexProgressController)
+    .directive('flexProgress', flexProgressDirective)
+    .directive('flexProgressbar', flexProgressbar)
+    .directive('flexBar', flexBar)
+    .run(function (){
+      console.log('running');
+    })
+    .run(flexBarTemplate)
+    .run(flexProgressTemplate)
+    .run(flexProgressbarTemplate)
+
+  FlexProgressController.$inject = ['$scope', '$attrs', 'flexProgressConfig'];
+  flexBarTemplate.$inject = ['$templateCache'];
+  flexProgressTemplate.$inject = ['$templateCache'];
+  flexProgressbarTemplate.$inject = ['$templateCache'];
+
+  function FlexProgressController($scope, $attrs, flexProgressConfig) {
+
+    var self = this,
+      animate = angular.isDefined($attrs.animate) ? $scope.$parent.$eval($attrs.animate) : flexProgressConfig.animate;
+
+    this.bars = [];
+    $scope.max = angular.isDefined($attrs.max) ? $scope.$parent.$eval($attrs.max) : flexProgressConfig.max;
+
+    this.addBar = function(bar, element) {
+      if ( !animate ) {
+        element.css({'transition': 'none'});
+      }
+
+      this.bars.push(bar);
+
+      bar.$watch('value', function( value ) {
+        bar.percent = +(100 * value / $scope.max).toFixed(2);
+      });
+
+      bar.$on('$destroy', function() {
+        element = null;
+        self.removeBar(bar);
+      });
+    };
+
+    this.removeBar = function(bar) {
+      this.bars.splice(this.bars.indexOf(bar), 1);
+    };
+  }
+
+  /**
+   * [flexProgress description]
+   * @return {[type]} [description]
+   */
+  function flexProgressDirective() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      transclude: true,
+      controller: 'FlexProgressController',
+      require: 'progress',
+      scope: {},
+      templateUrl: 'template/flexProgressbar/flexProgress.html'
+    };
+  }
+
+  /**
+   * [flexBar description]
+   * @return {[type]} [description]
+   */
+  function flexBar() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      transclude: true,
+      require: '^flexProgress',
+      scope: {
+        value: '=',
+        type: '@'
+      },
+      templateUrl: 'template/flexProgressbar/flexBar.html',
+      link: function(scope, element, attrs, progressCtrl) {
+        progressCtrl.addBar(scope, element);
+      }
+    };
+  }
+
+  /**
+   * [flexProgressbar description]
+   * @return {[type]} [description]
+   */
+  function flexProgressbar() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      transclude: true,
+      controller: 'FlexProgressController',
+      scope: {
+        value: '=',
+        type: '@'
+      },
+      templateUrl: 'template/flexProgressbar/flexProgressbar.html',
+      link: function(scope, element, attrs, progressCtrl) {
+        console.log('directive');
+        progressCtrl.addBar(scope, angular.element(element.children()[0]));
+      }
+    };
+  }
+
+  function flexBarTemplate($templateCache) {
+    $templateCache.put("template/flexProgressbar/flexBar.html",
+      "<div class=\"flex-progress-bar\" ng-class=\"type && 'flex-progress-bar-' + type\" role=\"progressbar\" aria-valuenow=\"{{value}}\" aria-valuemin=\"0\" aria-valuemax=\"{{max}}\" ng-style=\"{width: percent + '%'}\" aria-valuetext=\"{{percent | number:0}}%\" ng-transclude></div>");
+  }
+
+  function flexProgressTemplate($templateCache) {
+    $templateCache.put("template/flexProgressbar/flexProgress.html",
+      "<div class=\"flex-progress\" ng-transclude></div>");
+  }
+
+  function flexProgressbarTemplate($templateCache) {
+    $templateCache.put("template/flexProgressbar/flexProgressbar.html",
+      "<div class=\"flex-progress\">\n" +
+      "  <div class=\"flex-progress-bar\" ng-class=\"type && 'flex-progress-bar-' + type\" role=\"progressbar\" aria-valuenow=\"{{value}}\" aria-valuemin=\"0\" aria-valuemax=\"{{max}}\" ng-style=\"{width: percent + '%'}\" aria-valuetext=\"{{percent | number:0}}%\" ng-transclude></div>\n" +
+      "</div>");
+  }
+})()
+;(function(){
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
-  .directive('flexMain', flexMain);
+  .directive('flexRow', flexRow);
 
-  function flexMain() {
+  function flexRow() {
     return {
       transclude: true,
       replace: true,
       restrict: 'EA',
-      scope: true,
-      template:'<header class="flex-main {{bg}} " data-ng-transclude>' +
-              '</header>',
+      scope: {
+        gutters: '=gutters'
+      },
+      template:'<div class="flex-row {{pads}} {{bg}}" ng-class="{\'gutters\':gutters}" data-ng-transclude>' +
+              '</div>',
 
-      link: function(scope, element, attrs) {
+      link: function(scope, element, attrs, controller, transclude) {
         if(attrs.bg) scope.bg = 'bg-'+attrs.bg
-
+        if(attrs.pads) scope.pads = 'pads';
 
       }
     };
@@ -1309,7 +1010,7 @@
   'use strict';
 
   angular
-    .module('oxford.directives.dashboard')
+    .module('ui-flex')
 
     .directive('flexFull', flexFull)
     .directive('flexHalfs', flexHalfs)
@@ -1322,12 +1023,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<div class="flex-row-full {{gutters}}" data-ng-transclude>' +
+      template:'<div class="flex-full {{gutters}}" data-ng-transclude>' +
               '</div>',
 
       link: function(scope, element, attrs) {
         if(attrs.gutters) scope.gutters = 'gutters-'+attrs.gutters;
-        if(attrs.gutters = 'none') scope.gutters = 'no-gutters';
+        if(attrs.gutters === 'none') scope.gutters = 'no-gutters';
 
       }
     };
@@ -1338,12 +1039,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<div class="flex-row-halfs {{gutters}}" data-ng-transclude>' +
+      template:'<div class="flex-halfs {{gutters}}" data-ng-transclude>' +
               '</div>',
 
       link: function(scope, element, attrs) {
         if(attrs.gutters) scope.gutters = 'gutters-'+attrs.gutters;
-        if(attrs.gutters = 'none') scope.gutters = 'no-gutters';
+        if(attrs.gutters === 'none') scope.gutters = 'no-gutters';
 
       }
     };
@@ -1354,12 +1055,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<div class="flex-row-thirds {{gutters}}" data-ng-transclude>' +
+      template:'<div class="flex-thirds {{gutters}}" data-ng-transclude>' +
               '</div>',
 
       link: function(scope, element, attrs) {
         if(attrs.gutters) scope.gutters = 'gutters-'+attrs.gutters;
-        if(attrs.gutters = 'none') scope.gutters = 'no-gutters';
+        if(attrs.gutters === 'none') scope.gutters = 'no-gutters';
 
       }
     };
@@ -1370,12 +1071,12 @@
       replace: true,
       restrict: 'EA',
       scope: true,
-      template:'<div class="flex-row-fourths {{gutters}}" data-ng-transclude>' +
+      template:'<div class="flex-fourths {{gutters}}" data-ng-transclude>' +
               '</div>',
 
       link: function(scope, element, attrs) {
         if(attrs.gutters) scope.gutters = 'gutters-'+attrs.gutters;
-        if(attrs.gutters = 'none') scope.gutters = 'no-gutters';
+        if(attrs.gutters === 'none') scope.gutters = 'no-gutters';
 
       }
     };
@@ -1386,7 +1087,151 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
+
+  .directive('flexToolbar', flexToolbar);
+
+  function flexToolbar() {
+    return {
+      transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: {
+        shadow:'=shadow',
+        sud: '='
+      },
+      template:'<div class="flex-toolbar {{size}} {{bg}}" data-ng-class="ngClasses">' +
+              '<flex-aside side="left" ng-if="brand"><toolbar-brand>{{brand}}</toolbar-brand></flex-aside>'+
+              '</div>',
+
+      link: function(scope, element, attrs, ctrl, transclude) {
+        scope.brand = attrs.brand || false;
+        if(attrs.size) scope.size = 'toolbar-' + attrs.size
+
+        scope.bg="bg-"+attrs.bg
+
+        scope.ngClasses={
+          'has-shadow': scope.shadow,
+          'sub-toolbar':scope.sub,
+        };
+
+        transclude(function (clone){
+          element.append(clone);
+        })
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('flexUseColumn', flexUseColumn)
+  .directive('flexUseRow', flexUseRow)
+  .directive('flexUse', flexUse);
+
+  function flexUseColumn() {
+    return {
+      // transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="flex-column {{bg}}" data-ng-include="file">' +
+              '</section>',
+
+      link: function(scope, element, attrs) {
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        if(attrs.file) scope.file = attrs.file;
+      }
+    };
+  }
+  function flexUseRow() {
+    return {
+      // transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="flex-row {{bg}}" data-ng-include="file">' +
+              '</section>',
+
+      link: function(scope, element, attrs) {
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        if(attrs.file) scope.file = attrs.file;
+
+      }
+    };
+  }
+  function flexUse() {
+    return {
+      // transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template: '<div style="{{flex}}" class="{{type}} {{bg}}" data-ng-include="file"></div>',
+
+      link: function(scope, element, attrs) {
+        var flex = 'flex:'
+        if(attrs.grow){
+          flex+= attrs.grow + ' ';
+        } else {
+          flex+='';
+        }
+        if(attrs.shrink){
+          if(!attrs.grow){
+            flex +='0 '
+          }
+          flex+= attrs.shrink + ' ';
+        }
+        if(attrs.basis){
+          flex+= attrs.basis + ' ';
+        } else {
+          flex+='';
+        }
+        if(flex !== 'flex:') scope.flex = flex;
+
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        if(attrs.file) scope.file = attrs.file;
+        if(attrs.type) scope.type = 'flex-' + attrs.type
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
+
+  .directive('flexView', flexView);
+
+  function flexView() {
+    return {
+      // transclude: true,
+      replace: true,
+      restrict: 'EA',
+      scope: true,
+      template:'<section class="flex-view {{bg}}" ui-view={{name}}>' +
+              '</section>',
+
+      link: function(scope, element, attrs) {
+        if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+        if(attrs.name) scope.name = attrs.name;
+
+      }
+    };
+  }
+
+}).call(this);
+;(function(){
+
+  'use strict';
+
+  angular.module('ui-flex')
 
   .directive('flex', flex);
 
@@ -1394,13 +1239,32 @@
     return {
       transclude: true,
       replace: true,
-      restrict: 'EA',
+      restrict: 'E',
       scope: true,
-      template:'<div class="{{flexSize}} {{bg}} " data-ng-transclude>' +
+      template:'<div class="{{flexSize}} {{bg}} " style="{{flex}}" data-ng-transclude>' +
               '</div>',
 
       link: function(scope, element, attrs) {
         if(attrs.bg) scope.bg = 'bg-'+attrs.bg
+
+        var flex = 'flex:'
+        if(attrs.grow){
+          flex+= attrs.grow + ' ';
+        } else {
+          flex+='';
+        }
+        if(attrs.shrink){
+          if(!attrs.grow){
+            flex +='0 '
+          }
+          flex+= attrs.shrink + ' ';
+        }
+        if(attrs.basis){
+          flex+= attrs.basis + ' ';
+        } else {
+          flex+='';
+        }
+        if(flex !== 'flex:') scope.flex = flex;
 
         scope.flexSize = 'flex';
 
@@ -1416,7 +1280,7 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
   .directive('uiFlex', uiFlex);
 

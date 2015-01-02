@@ -1,0 +1,43 @@
+<flex-content>
+  <div class="pads flex-grid">
+    <ul class="flex flex-row" gridster="gridsterOpts">
+      <li class="block bg-blue-100" gridster-item="customItemMap" ng-repeat="item in customItems">
+          <div class="bg-pink grid-flex-container">
+            <flex-card title="{{$index}}">
+                <div class="grid-row bg-pink">
+                  <!-- <div class="grid-flex bg-green"></div> -->
+                  <!-- <div class="grid-flex bg-blue"></div> -->
+                  <!-- <div class="grid-flex bg-white"></div> -->
+                </div>
+            </flex-card>
+          </div>
+      </li>
+
+    </ul>
+  </div>
+  <flex-action-group
+        rotate="90"
+        bg="red"
+        icon="gcon-plus"
+        next="gcon-pencil">
+    <flex-btn class="text-white btn-sm"
+          round=true
+          raised=true
+          icon="fa fa-envelope"
+          bg="lime">
+    </flex-btn>
+    <flex-btn class="text-white btn-sm"
+          round=true
+          raised=true
+          icon="fa fa-user"
+          bg="lightblue">
+    </flex-btn>
+    <flex-btn class="text-white btn-sm"
+          round=true
+          raised=true
+          icon="fa fa-heart"
+          bg="pink">
+    </flex-btn>
+    </flex-action-group>
+  </div>
+</flex-content>

@@ -1,9 +1,7 @@
 ;(function() {
   'use strict';
 
-  angular.module('oxford.directives.list', [
-
-  ])
+  angular.module('ui-flex')
   .directive('oxList', function() {
     return {
       transclude: true,

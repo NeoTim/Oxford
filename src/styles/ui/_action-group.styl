@@ -1,0 +1,95 @@
+.action-group
+
+  position fixed
+  flex-container()
+  flex-direction(column)
+  // flex-wrap()
+  align-self(center)
+  align-items(center)
+  align-content(center)
+  justify-content(center)
+
+  min-width 80px
+  max-width 80px
+  // min-height 400px
+  min-height 200px
+  height 200px
+  width 80px
+  right 24px
+  bottom 24px
+  > i
+    font-size 25px !important
+
+
+  > .action-btn
+    width 80px
+    min-height 80px
+    max-height 80px
+    height 80px
+
+    flex-container()
+    flex-direction(column)
+    flex-wrap(nowrap)
+    flex-element(1)
+    align-items(flex-end)
+    align-content(flex-end)
+    align-self(flex-center)
+    > .flex-btn
+      align-self(center)
+
+  > .actions
+    flex-element(1)
+    flex-container()
+    flex-direction(column-reverse)
+    flex-wrap(wrap reverse)
+    align-content(flex-end)
+    align-items(center)
+    align-contetn(flex-end)
+    max-width 80px
+    min-width 80px
+    min-height 100px
+    width 80px
+    > .flex-btn
+      margin-bottom 10px
+      align-self(center)
+      > i
+        font-size 25px
+      transition(opacity 200ms ease)
+      opacity 0
+
+
+
+   &:hover
+    > .actions
+      > .flex-btn
+
+        // opacity 1
+        animation(grow-actions 100ms ease 0s both)
+        animation-direction(forwards)
+        for number in 2..10
+          val = (number - 1)
+          &:nth-child({number})
+            animate-delay(unit( (100 * val) , 'ms'))
+
+
+
+    > .action-btn
+      > .flex-btn
+        > i
+          // transform-rotate(180deg)
+
++keyframes(grow-actions)
+  from
+    min-height 0
+    min-width 0
+    padding 0
+    opacity 0
+  to
+    min-height 50px
+    min-width 50px
+    padding 5px 12px
+    opacity 1
+
+
+
+

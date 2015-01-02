@@ -1,7 +1,7 @@
 ;(function(){
   'use strict';
 
-  angular.module('oxford.directives.drag', [])
+  angular.module('ui-flex', [])
 
   .directive('draggable', function() {
     var gridWidth = 200;

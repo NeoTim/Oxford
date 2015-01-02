@@ -4,167 +4,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Oxford Demo</title>
-  <!-- build:css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="../lib/c3/c3.css" />
-    <link rel="stylesheet" href="../lib/toastr/toastr.css" />
-    <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css" />
+  <!-- bower:css -->
+  <link rel="stylesheet" href="../lib/c3/c3.css" />
+  <link rel="stylesheet" href="../lib/toastr/toastr.css" />
+  <link rel="stylesheet" href="../lib/fontawesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="../lib/angular-gridster/dist/angular-gridster.min.css" />
   <!-- endbower -->
-  <!-- endbuild -->
- <!-- <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html"> -->
-  <!-- <link rel="stylesheet" href="bootstrap-material-design/material-wfont.css"> -->
-  <!-- <link rel="stylesheet" href="bootstrap-material-design/material.css"> -->
+
+
+  <!-- <link rel="stylesheet" href="colors.css"> -->
 
   <!-- styles:css -->
+  <link rel="stylesheet" href="/oxford.css">
   <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/heavy.css">
   <!-- endinject -->
-  <!-- <link rel="stylesheet" href="/boot.css"> -->
 
 </head>
-<body ng-app="demo" ng-controller="Controller">
+<body ng-app="demo" class="theme-indigo-amber" ng-controller="Controller as vm">
 
-  <ui-flex bg="grey">
-    <flex-header bg="blue">
-      <button class="btn" ng-click="$toggleLeftFold()">Close Left</button>
-    </flex-header>
-    <flex-body bg="grey" gutters="none">
+  <div class="flex-container bg-grey-300">
 
-      <flex-main bg="grey-300">
-        <flex-body bg="grey-300"></flex-body>
-      </flex-main>
 
-      <flex-aside-left bg="grey-400">
-        <flex>
-          <a ui-sref="flex.buttons">Buttons</a>
+
+  <ui-flex>
+
+    <flex-toolbar bg="indigo">
+      <toolbar-brand>
+        <flex class="brand-tool">
+          <flex-tool ng-click="$toggleLeftFold()" icon="mdi-navigation-menu"></flex-tool>
         </flex>
+        <flex class="brand-heading">
+          ui-flex
+        </flex>
+      </toolbar-brand>
+
+      <toolbar-tools side="left">
+        <div class="input-group icon-right">
+          <div class="input-group-icon icon-left"><i class="mdi-action-search"></i></div>
+          <input type="text" class="flex-control" placeholder="Search">
+        </div>
+      </toolbar-tools>
+
+      <toolbar-tools side="right">
+        <!-- <button class="btn" ng-click="$toggleLeftFold()">Close Left</button> -->
+        <flex-tool icon="mdi-file-cloud-download"></flex-tool>
+        <flex-tool icon="mdi-social-notifications"></flex-tool>
+        <flex-tool icon="mdi-social-person"></flex-tool>
+        <flex-tool icon="mdi-navigation-more-vert"></flex-tool>
+      </toolbar-tools>
+
+    </flex-toolbar>
+    <flex-body gutters="none">
+
+      <flex-view></flex-view>
+
+      <flex-aside-left bg="white">
+        <flex-header size="huge" class="flex-header-primary">
+          <div class="brand">MyApp</div>
+        </flex-header>
+        <flex-column>
+          <ul class="aside-list-group">
+            <li class="{{$isActive('buttons')}}" ui-sref="buttons">
+              <i class="mdi-action-view-agenda text-green"></i>
+              <a >Buttons</a>
+            </li>
+            <li class="{{$isActive('forms')}}" ui-sref="forms">
+              <i class="mdi-editor-mode-edit text-amber"></i>
+              <a >Forms</a>
+            </li>
+            <li class="{{$isActive('panels')}}" ui-sref="panels">
+              <i class="mdi-action-dashboard text-pink"></i>
+              <a >Panels</a>
+            </li>
+            <li class="{{$isActive('toolbars')}}" ui-sref="toolbars">
+              <i class="mdi-action-label text-deeporange"></i>
+              <a>Toolbars</a>
+            </li>
+            <li class="{{$isActive('animations')}}" ui-sref="animations">
+              <i class="mdi-device-data-usage text-blue"></i>
+              <a>Animations</a>
+            </li>
+            <li class="{{$isActive('ui')}}" ui-sref="ui">
+              <i class="mdi-device-data-usage text-blue"></i>
+              <a>UI</a>
+            </li>
+          </ul>
+          <div class="divider tiny"></div>
+        </flex-body>
       </flex-aside-left>
-      <flex-aside-right bg="grey-400"></flex-aside-left>
 
     </flex-body>
-    <flex-footer bg="red"></flex-footer>
+    <!-- <flex-footer bg="red"></flex-footer> -->
   </ui-flex>
 
-  <!-- <ox-dashboard data-ng-class="{
-    'show-left': !app.settings.foldLeft,
-    'show-right': !app.settings.foldRight,
-    'fold-left': app.settings.foldLeft,
-    'fold-right': app.settings.foldRight,
-    'show-inner-left': !app.settings.foldInnerLeft,
-    'fold-inner-left': app.settings.foldInnerLeft,
-    'fold-inner-right': app.settings.foldInnerRight,
-    'show-inner-right': !app.settings.foldInnerRight
-    }">
+</div>
 
-    <ox-toolbar-top title="Oxford" color="grey-700">
-      <ox-tools side="left">
-        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
-        <ox-tool color="lightblue-300" icon="pencil" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-700" icon="edit" link="#/home"></ox-tool>
-      </ox-tools>
-      <ox-tools side="right">
-        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-right next="close"></ox-tool>
-        <ox-tool color="lightblue-600" icon="clipboard" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-500" icon="bar-chart-o" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-400" icon="github" link="#/home"></ox-tool>
-      </ox-tools>
-    </ox-toolbar-top>
 
-    <ox-dashboard-container>
-
-        <ox-dashboard-aside side="left">
-          <ox-aside-header>
-            <ox-aside-header>
-              <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
-            </ox-aside-header>
-          </ox-aside-header>
-          <ox-aside-content>
-
-          </ox-aside-content>
-          <ox-aside-footer>
-          </ox-aside-footer>
-        </ox-dashboard-aside>
-
-        <ox-dashboard-content>
-
-          <ox-toolbar-top color="grey-300">
-            <ox-tools side="left">
-
-            </ox-tools>
-          </ox-toolbar-top>
-
-          <ox-container>
-
-            <ox-content></ox-content>
-            <ox-aside side="left"></ox-aside>
-            <ox-aside side="right"></ox-aside>
-
-          </ox-container>
-
-          <ox-footer></ox-footer>
-        </ox-dashboard-content>
-
-        <ox-dashboard-aside side="right">
-
-          <ox-aside-header>
-            <ox-aside-nav>
-            <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-right next="close"></ox-tool>
-            </ox-aside-nav>
-          </ox-aside-header>
-          <ox-aside-content></ox-aside-content>
-          <ox-aside-footer></ox-aside-footer>
-        </ox-dashboard-aside>
-
-    </ox-dashboard-container>
-  </ox-dashboard> -->
-
-  <!-- <ox-dashboard>
-    <ox-toolbar-top title="Oxford" color="grey-700">
-      <ox-tools side="left">
-        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-left next="chevron-down"></ox-tool>
-        <ox-tool color="lightblue-300" icon="pencil" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-700" icon="edit" link="#/home"></ox-tool>
-      </ox-tools>
-      <ox-tools side="right">
-        <ox-tool color="lightblue-200" icon="bars" ox-toggle-toolbar-right next="close"></ox-tool>
-        <ox-tool color="lightblue-600" icon="clipboard" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-500" icon="bar-chart-o" link="#/home"></ox-tool>
-        <ox-tool color="lightblue-400" icon="github" link="#/home"></ox-tool>
-      </ox-tools>
-    </ox-toolbar-top>
-    <ox-toolbar-left color="grey-800">
-      <ox-tool color="deeporange-400" icon="home" link="#/home" title="Home"></ox-tool>
-      <ox-tool color="deeporange-300" icon="user" link="#/home" title="Users"></ox-tool>
-      <ox-tool color="deeporange-200" icon="bar-chart-o" link="#/home" title="Graphs"></ox-tool>
-    </ox-toolbar-left>
-
-    <ox-dashboard-content>
-    </ox-dashboard-content>
-
-    <ox-toolbar-right color="grey-800">
-      <ox-tool color="lightgreen-400" icon="edit" link="#/home" title="Home"></ox-tool>
-      <ox-tool color="lightgreen-500" icon="user" link="#/home" title="Users"></ox-tool>
-      <ox-tool color="lightgreen-600" icon="bar-chart-o" link="#/home" title="Graphs"></ox-tool>
-    </ox-toolbar-right>
-
-    <ox-toolbar-bottom title="Oxford" color="grey-700">
-      <ox-tools side="left">
-      </ox-tools>
-      <ox-tools side="right">
-        <ox-tool color="red-200" icon="bars"></ox-tool>
-        <ox-tool color="red-300" icon="pencil" link="#/home"></ox-tool>
-        <ox-tool color="red-700" icon="edit" link="#/home"></ox-tool>
-        <ox-tool color="red-600" icon="clipboard" link="#/home"></ox-tool>
-        <ox-tool color="red-500" icon="bar-chart-o" link="#/home"></ox-tool>
-        <ox-tool color="red-400" icon="github" link="#/home"></ox-tool>
-      </ox-tools>
-    </ox-toolbar-bottom>
-
-  </ox-dashboard> -->
-
-  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"/></script> -->
-  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/utils/Draggable.min.js"></script> -->
-
-  <!-- build:js -->
   <!-- bower:js -->
   <script src="../lib/jquery/dist/jquery.js"></script>
   <script src="../lib/gsap/src/uncompressed/TweenMax.js"></script>
@@ -173,93 +109,52 @@
   <script src="../lib/toastr/toastr.js"></script>
   <script src="../lib/angular/angular.js"></script>
   <script src="../lib/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="../lib/javascript-detect-element-resize/detect-element-resize.js"></script>
+  <script src="../lib/angular-gridster/src/angular-gridster.js"></script>
+  <script src="../lib/angular-animate/angular-animate.js"></script>
   <!-- endbower -->
-  <!-- endbuild -->
-  <script src="/lib/gsap/src/minified/utils/Draggable.min.js"></script>
+
+  <script src="../lib/gsap/src/minified/plugins/CSSPlugin.min.js"></script>
+  <script src="../lib/gsap/src/minified/plugins/CSSRulePlugin.min.js"></script>
 
   <!-- scripts:js -->
   <script src="/scripts/main.js"></script>
-  <script src="/scripts/main/directives/card.js"></script>
-  <script src="/scripts/main/directives/chart.js"></script>
   <script src="/scripts/main/directives/drag.js"></script>
   <script src="/scripts/main/directives/index.js"></script>
   <script src="/scripts/main/directives/list.js"></script>
   <script src="/scripts/main/directives/ripple.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/dashboard.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-aside-content.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-aside-footer.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-aside-header.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-aside-nav.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-aside.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-container.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-content.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-dashboard-aside.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-dashboard-content.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-footer.js"></script>
-  <script src="/scripts/main/directives/ox-dashboard/ox-header.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-brand.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-left.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toggle-toolbar-right.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tool-box.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tool.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-bottom.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-header.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-left.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-right.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar-top.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-toolbar.js"></script>
-  <script src="/scripts/main/directives/ox-toolbar/ox-tools.js"></script>
+  <script src="/scripts/main/directives/components/flex-action-group.js"></script>
+  <script src="/scripts/main/directives/components/flex-animations.js"></script>
+  <script src="/scripts/main/directives/components/flex-btn.js"></script>
+  <script src="/scripts/main/directives/components/flex-tool.js"></script>
+  <script src="/scripts/main/directives/components/toolbar-brand.js"></script>
+  <script src="/scripts/main/directives/components/toolbar-tools.js"></script>
   <script src="/scripts/main/directives/ui/flex-aside.js"></script>
   <script src="/scripts/main/directives/ui/flex-body.js"></script>
+  <script src="/scripts/main/directives/ui/flex-card.js"></script>
+  <script src="/scripts/main/directives/ui/flex-column.js"></script>
+  <script src="/scripts/main/directives/ui/flex-content.js"></script>
   <script src="/scripts/main/directives/ui/flex-footer.js"></script>
   <script src="/scripts/main/directives/ui/flex-header.js"></script>
-  <script src="/scripts/main/directives/ui/flex-main.js"></script>
+  <script src="/scripts/main/directives/ui/flex-progress.js"></script>
+  <script src="/scripts/main/directives/ui/flex-row.js"></script>
   <script src="/scripts/main/directives/ui/flex-sets.js"></script>
+  <script src="/scripts/main/directives/ui/flex-toolbar.js"></script>
+  <script src="/scripts/main/directives/ui/flex-use.js"></script>
+  <script src="/scripts/main/directives/ui/flex-view.js"></script>
   <script src="/scripts/main/directives/ui/flex.js"></script>
   <script src="/scripts/main/directives/ui/ui-flex.js"></script>
   <!-- endinject -->
 
   <!-- demo:js -->
   <script src="app.js"></script>
+  <script src="flex-progress.js"></script>
+  <script src="controllers/animations.controller.js"></script>
   <script src="controllers/app.controller.js"></script>
+  <script src="controllers/panels.controller.js"></script>
+  <script src="controllers/progressBar.controller.js"></script>
   <script src="services/logger.service.js"></script>
   <!-- endinject -->
 
-  <!-- <script type="text/javascript" src="bootstrap-material-design/ripples.js"></script> -->
-  <!-- <script type="text/javascript" src="bootstrap-material-design/material.js"></script> -->
-
-      <!-- <div id="testblock" class="testblock2"></div>
-      <div id="testblock" class="testblock3"></div>
-      <div id="testblock" class="testblock4"></div> -->
-      <!-- <div id="testblock" class="testblock1"> -->
-      <!-- </div> -->
-        <!-- <div class="testblock1 g-medium--full g-wide--full"></div> -->
-
-  <script type="text/ng-template" id="content">
-        <div class="testblock1 g-medium--half g-wide--1"></div>
-        <div class="testblock1 g-medium--half g-medium--last g-wide--1"></div>
-        <div class="testblock1 g-medium--half g-wide--1"></div>
-        <div class="testblock1 g-medium--half g-medium--last g-wide--1 g-wide--last"></div>
-  </script>
-          <!-- // <ox-chart options="options" pattern="material"></ox-chart> -->
-    <!-- div class="g-wide--full g-wide--last row">
-      <div class="button raised grey narrow">
-        <div class="center" fit>+1</div>
-        <paper-ripple fit></paper-ripple>
-      </div>
-      <div class="button raised">
-        <div class="center" fit>SUBMIT</div>
-        <paper-ripple fit></paper-ripple>
-      </div>
-    </div> -->
-      <!-- <ox-chart options="options" pattern="material"></ox-chart>
-      <div class="g-wide-\-full g-wide-\-last row">
-        <div class="card-material" draggable>Yoooo</div>
-        <div class="card-material" draggable>Yoooo</div>
-        <div class="card-material" draggable>Yoooo</div>
-      </div> -->
-  <!-- <script type="text/ng-template" id="content">
-      <div id="original"></div>
-  </script> -->
 </body>
 </html>

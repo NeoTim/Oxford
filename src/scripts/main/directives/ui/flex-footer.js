@@ -2,7 +2,7 @@
 
   'use strict';
 
-  angular.module('oxford.directives.dashboard')
+  angular.module('ui-flex')
 
   .directive('flexFooter', flexFooter);
 

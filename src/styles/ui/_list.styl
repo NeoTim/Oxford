@@ -1,0 +1,76 @@
+$list-item-thumb-width    = 40px
+
+.aside-list-group,
+ul.aside-list-group
+  flex-container()
+  flex-element(1 0 auto)
+  flex-direction(column)
+  margin 0
+  padding 0
+  list-style none
+  padding $aside-list-group-padding
+  > li
+    cursor pointer
+    padding-top 4px
+    padding-bottom 4px
+    overflow hidden
+  > *
+    flex-container()
+    color $text-secondary
+    font-size 15px
+    line-height 40px
+    font-weight bold
+    padding-left $aside-list-item-padding-left
+    &:active,
+    &.active,
+    &:hover
+      backgrounds($color-grey-200)
+
+    > i
+      color $text-secondary
+      font-size 20px
+      line-height 40px
+
+    > a, a:visited, a:active, a.active, a.target
+      flex-element(1)
+      font-size 15px
+      line-height 40px
+      color $text-secondary
+      padding-left $aside-list-item-padding-left
+      text-decoration none
+
+
+.fold-aside
+  .aside-list-group
+    > * > a,p,span
+      display none
+
+.flex-list
+  flex-container()
+  flex-element(1 0 auto)
+  flex-direction(column)
+  margin 0
+  padding 0
+  list-style none
+
+  .flex-item
+    padding-top 4px
+    padding-bottom 4px
+    overflow hidden
+
+    &.flex-item-content
+      flex-container()
+      flex-element(1 0 auto)
+      flex-direction(column)
+      flex-order(0)
+
+    &.item-has-icon
+      >.flex-item-icon
+        flex-element(0 0 $list-item-thumb-width)
+        max-width
+        flex-order(-1)
+
+    &.item-has-thumb
+      >.flex-item-thumb
+        flex-element(0 0 $list-item-thumb-width)
+        flex-order(-1)

@@ -1,0 +1,192 @@
+.box
+  flex-container()
+
+.flex-grid
+  min-height 100%
+  max-height 100%
+  max-width 100%
+  min-width 100%
+  flex-element(1)
+
+.grid-flex-container
+  flex-container()
+  flex-direction(column)
+  position relative
+  min-height 100%
+  max-height 100%
+  width 100%
+
+  .flex-card
+    margin 0
+
+.grid-flex
+  flex-container()
+  flex-element(1 0 auto)
+
+.grid-row
+  flex-container()
+  flex-direction(row)
+  flex-wrap(nowrap)
+  flex-element(1)
+
+.flex-container
+  display-box()
+  flex-container()
+  flex-wrap(nowrap)
+  width 100vw
+  height 100vh
+  position relative
+  overflow hidden
+
+.ui-flex
+  flex-container()
+  flex-direction(column)
+  flex-element(1)
+  width 100vw
+  height 100vh
+  position relative
+
+make-flex-column()
+  flex-container()
+  position relative
+  flex-element(1 0 auto)
+  flex-wrap(nowrap)
+  flex-direction(column)
+  flex-wrap(wrap)
+
+make-flex-row()
+  flex-container()
+  flex-element(1 0 auto)
+  flex-direction(nowrap)
+  flex-wrap(wrap)
+  padding 0
+  use-gutters()
+
+
+flex-item()
+  flex-container()
+  margin-bottom 0.4rem
+
+.flex-column
+  make-flex-column()
+
+.flex-row
+  make-flex-row()
+
+.flex-auto
+  flex-item()
+  flex-element(auto)
+
+
+.flex
+  flex-item()
+  padding-left 10px
+  padding-right 10px
+  flex-element(1 0 auto)
+
+.flex-halfs
+  make-flex-row()
+  & > *
+    flex-item()
+    flex-element(0 0 50%)
+    max-width 50%
+
+.flex-full
+  make-flex-row()
+  & > *
+    flex-item()
+    flex-element(1 0 auto)
+    max-width 100%
+
+.flex-thirds
+  make-flex-row()
+  & > *
+    flex-item()
+    flex-element(0 0 33.33333%)
+    max-width 33.33333%
+
+.flex-fourths
+  make-flex-row()
+  & > *
+    flex-item()
+    flex-element(0 0 25%)
+    max-width 35%
+
+
+get-size(index)
+  flex-element(0 0 unit( (100%/12*index) , '%'))
+  max-width unit( (100%/12*index) , '%')
+
+get-size-and-offset(index, val)
+  flex-element(0 0 unit( (100%/12*index) , '%'))
+  margin-left unit( (100%/12*val) , '%')
+  max-width unit( (100%/12*index) , '%')
+
+
+
+build-grid-offsets(size, index, offset, breakpoint)
+  .flex-column > .flex-{offset}--{index},
+  .flex-column > .flex-{size}-{offset}--{index}
+    flex-element(index 0 auto)
+
+  .flex-{offset}--{index}
+    flex-item()
+    get-size(12)
+    @media(min-width $breakpoint-sm)
+      get-size-and-offset(index, offset)
+
+  if size is not xs
+    .flex-{size}-{offset}--{index}
+      get-size(12)
+  else
+    .flex-{size}-{offset}--{index}
+      get-size-and-offset(index, offset)
+
+  .flex-{size}-{offset}--{index}
+    flex-item()
+    box-sizing border-box
+    @media(min-width breakpoint)
+      get-size-and-offset(index, offset)
+
+
+build-grid(size, index, breakpoint)
+  .flex-column > .flex-{index},
+  .flex-column > .flex-{size}-{index}
+    flex-element(index 0 (100% / 12 * index))
+
+  .flex-{index}
+    flex-item()
+    get-size(12)
+
+    @media(min-width $breakpoint-sm)
+      get-size(index)
+
+  if size is not xs
+    .flex-{size}-{index}
+      get-size(12)
+  else
+    .flex-{size}-{index}
+      get-size(index)
+
+  .flex-{size}-{index}
+    flex-item()
+    box-sizing border-box
+    @media(min-width breakpoint)
+      get-size(index)
+
+for index in 1..12
+
+  build-grid(xs, index, $breakpoint-xs)
+  build-grid(sm, index, $breakpoint-sm)
+  build-grid(md, index, $breakpoint-md)
+  build-grid(lg, index, $breakpoint-lg)
+  build-grid(xl, index, $breakpoint-huge)
+
+  for offset in 1..12
+    build-grid-offsets(xs, index, offset, $breakpoint-xs)
+    build-grid-offsets(sm, index, offset, $breakpoint-sm)
+    build-grid-offsets(md, index, offset, $breakpoint-md)
+    build-grid-offsets(lg, index, offset, $breakpoint-lg)
+    build-grid-offsets(xl, index, offset, $breakpoint-huge)
+
+

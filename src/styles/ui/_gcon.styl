@@ -1,0 +1,66 @@
+
+[class^="gcon-"], [class*=" gcon-"],
+[class^="fa-"], [class*=" fa-"]
+  &:hover
+    transition(all 200ms ease)
+
+
+
+
+[class^="gcon-"], [class*=" gcon-"]
+  font-gconmily: Material-Design-Icons
+  display: inline-block
+  font: normal normal normal 25px/1 Material-Design-Icons
+  text-rendering: auto
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  font-weight: 400
+  text-rendering: auto
+  line-height: 1
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+
+  // speak: none
+
+.gcon-rotate-90
+  // filter progid:DXImageTransform.Microsoft.BasicImage(rotation=1)
+  -webkit-transform rotate(90deg)
+  -ms-transform rotate(90deg)
+  transform rotate(90deg)
+.gcon-rotate-180
+  // filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2)
+  -webkit-transform: rotate(180deg)
+  -ms-transform: rotate(180deg)
+  transform: rotate(180deg)
+
+.gcon-rotate-270
+  // filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3)
+  -webkit-transform: rotate(270deg)
+  -ms-transform: rotate(270deg)
+  transform: rotate(270deg)
+
+.gcon-flip-horizontal
+  // filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)
+  -webkit-transform: scale(-1, 1)
+  -ms-transform: scale(-1, 1)
+  transform: scale(-1, 1)
+
+.gcon-flip-vertical
+  // filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)
+  -webkit-transform: scale(1, -1)
+  -ms-transform: scale(1, -1)
+  transform: scale(1, -1)
+
+
+.gcon-plus
+  transform rotate(-180deg)
+  &:before
+    content "\e6fb"
+  // &.ng-animate:before
+
+.gcon-pencil:before
+  content "\e796"
+  // transform-rotate(-45deg)
+
+

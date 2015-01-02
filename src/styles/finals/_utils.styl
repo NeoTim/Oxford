@@ -1,0 +1,120 @@
+for order in $flex-orders
+  .order-{order}
+    order order
+  .order-n-{order}
+    order (0 - order)
+
+
+.wrap-row
+  flex-wrap(row wrap)
+.wrap-column
+  flex-wrap(column wrap)
+
+.wrap-no
+  flex-wrap(nowrap)
+
+.wrap-column-reverse
+  flex-wrap(column wrap)
+
+.wrap-row-reverse
+  flex-wrap(row wrap)
+
+.justify-end
+  justify-content(flex-end)
+.justify-center
+  justify-content(center)
+.justify-start
+  justify-content(flex-start)
+
+.align-content-end
+  align-content(flex-end)
+
+.align-items-start
+  align-items(flex-start)
+.align-items-center
+  align-items(center)
+.align-items-end
+  align-items(flex-end)
+
+.align-end
+  align-self(flex-end)
+.align-center
+  align-self(center)
+.align-start
+  align-self(flex-start)
+.align-stretch
+  align-self(stretch)
+
+.divider
+  backgrounds($color-grey-200)
+  &.tiny
+    flex 0 0 1px
+    min-height 1px
+  &.sm
+    flex 0 0 8px
+    min-height 8px
+  &.md
+    flex 0 0 16px
+    min-height 16px
+
+.text-center
+  text-align center
+.text-right
+  text-align right
+.text-left
+  text-align left
+
+.pads
+  padding 10px
+
+.pads-large
+  padding 20px
+
+.no-mrg
+  margin 0 !important
+
+make-margins(val)
+  .mrg-t-{val}
+    margin-top val
+  .mrg-r-{val}
+    margin-right val
+  .mrg-b-{val}
+    margin-bottom val
+  .mrg-l-{val}
+    margin-left val
+  .mrg-{val}
+    margin val
+  .mrg-tb-{val}
+    margin-top val
+    margin-bottom val
+  .mrg-rl-{val}
+    margin-right val
+    margin-left val
+
+make-pads(val)
+  .pad-t-{val}
+    padding-top val
+  .pad-r-{val}
+    padding-right val
+  .pad-b-{val}
+    padding-bottom val
+  .pad-l-{val}
+    padding-left val
+  .pad-{val}
+    padding val
+  .pad-tb-{val}
+    padding-top val
+    padding-bottom val
+  .pad-rl-{val}
+    padding-right val
+    padding-left val
+
+for item in 5px 15px 10px 20px 25px 30px 40px 50px
+  make-pads(item)
+  make-margins(item)
+
+
+
+
+
+

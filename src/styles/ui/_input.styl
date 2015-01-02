@@ -1,0 +1,91 @@
+.flex-control
+  flex-element(1 0 auto)
+  outline none
+  font-size 15px
+  padding 7px 10px
+  border-top none
+  border-left none
+  border-right none
+  color $text-secondary
+  border-bottom 1px solid $color-grey-200
+  margin-bottom 2px
+  transition(all 200ms ease)
+
+  &:focus
+    margin-bottom 0
+    border-bottom 3px solid $brand-primary
+
+.input-group
+  flex-container()
+  flex-direction(row)
+  flex-element(1)
+  align-items(center)
+  font-size 26px
+  font-weight thin
+  position relative
+
+
+  .input-group-icon
+    flex-container()
+    align-items(center)
+    justify-content(center)
+    background none
+    background-color none
+    color $text-light
+    height 36px
+    min-width 72px
+
+
+  .flex-control
+    padding 0
+    margin 0
+    height 36px
+    border none
+    background none
+    background-color none
+    color $text-light
+    &::-webkit-input-placeholder
+      color white
+    &:-moz-placeholder
+      /* FF 4-18 */
+      color white
+    &::-moz-placeholder
+      /* FF 19+ */
+      color white
+    &:-ms-input-placeholder
+      /* IE 10+ */
+      color white
+
+
+    &:hover
+      boder none
+
+
+
+.form-group
+  flex-container()
+  flex-direction(column)
+  font-size 15px
+  font-weight 400
+  margin-bottom 10px
+
+  .flex-label
+    flex-container()
+    color $text-secondary
+    font-weight bold
+    margin-bottom 8px
+
+
+
+  &.inline
+    flex-direction(row)
+
+    .flex-label
+      flex-element(0 2 auto)
+      justify-content(flex-end)
+      padding 5px 30px 5px 0
+      text-align right
+      min-width 20%
+
+    .flex-control
+      flex-element(1 0 auto)

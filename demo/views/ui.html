@@ -1,0 +1,33 @@
+<flex-content>
+  <flex>
+    <flex-card title="flex-progressbar">
+      <div class="card-body" data-ng-controller="ProgressBarController">
+
+        <h3>Static</h3>
+        <div class="row">
+            <flex-progressbar value="55"></flex-progressbar>
+            <flex-progressbar class="progress-striped" value="22" type="warning">22%</flex-progressbar>
+            <flex-progressbar class="progress-striped active" max="200" value="166" type="danger"><i>166 / 200</i></flex-progressbar>
+        </div>
+
+        <hr />
+        <h3>Dynamic <button class="btn btn-sm btn-primary" type="button" ng-click="random()">Randomize</button></h3>
+        <flex-progressbar max="max" value="dynamic"><span style="color:black; white-space:nowrap;">{{dynamic}} / {{max}}</span></flex-progressbar>
+
+        <small><em>No animation</em></small>
+        <flex-progressbar animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></flex-progressbar>
+
+        <small><em>Object (changes type based on value)</em></small>
+        <p>{{type}}</p>
+        <flex-progressbar class="progress-striped active" value="dynamic" type="{{type}}">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></flex-progressbar>
+
+        <hr />
+        <h1>++{{stacked}}</h1>
+        <h3>Stacked <button class="btn btn-sm bg-indogo" type="button" ng-click="randomStacked()">Randomize</button></h3>
+        <flex-progress><flex-bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></flex-bar></flex-progress>
+
+      </div>
+    </flex-card>
+  </flex>
+
+</flex-content>

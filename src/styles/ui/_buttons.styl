@@ -1,0 +1,164 @@
+
+activate-rotaion(degree)
+  > i
+    &.rotate-active
+      transform-rotate(degree)
+
+
+.flex-btn
+  align-self(flex-start)
+  float left
+  display inline-block
+
+  border none
+  outline none
+  padding 6px 12px
+  color $color-dark
+  margin 0
+  vertical-align middle
+  text-align center
+  cursor pointer
+  font-size 14px
+  font-weight 400
+  background-color $color-grey-100
+  margin 0 3px
+
+
+
+  transition(all 200ms ease)
+  > i
+    transition(all 200ms ease)
+  border-radius(2px)
+
+  &.btn-raised
+    box-shadow($box-shadow-medium)
+
+
+  &.btn-round
+    border-radius(100%)
+    max-width 60px
+    min-width 60px
+    max-height 60px
+    min-height 60px
+
+  &.btn-xs
+    padding 4px 8px
+    font-size 12px
+
+    &.btn-round
+      border-radius(100%)
+      max-width 40px
+      min-width 40px
+      max-height 40px
+      min-height 40px
+
+  &.btn-sm
+    padding 5px 10px
+    font-size 12px
+
+    &.btn-round
+      border-radius(100%)
+      max-width 50px
+      min-width 50px
+      max-height 50px
+      min-height 50px
+
+  &.btn-md
+    padding 8px 16px
+    font-size 16px
+
+    &.btn-round
+      border-radius(100%)
+
+      max-width 70px
+      min-width 70px
+      max-height 70px
+      min-height 70px
+
+  &.btn-lg
+    padding 10px 20px
+    font-size 18px
+
+    &.btn-round
+      border-radius(100%)
+      min-width 80px
+      max-width 80px
+      max-height 80px
+      min-height 80px
+
+
+  &:active
+    box-shadow(0px 0px 2px rgba(0,0,0,.3))
+
+
+  &:not('btn-raised'):hover
+    box-shadow(0px 4px 6px rgba(0,0,0,.3))
+    // activate-rotaion(90deg)
+
+
+
+  &.primary
+    color $color-white
+    background-color $color-indigo
+
+  &.info
+    color $color-white
+    background-color $color-lightblue
+
+  &.success
+    color $color-white
+    background-color $color-green
+
+  &.warning
+    color $color-white
+    background-color $color-orange
+
+  &.danger
+    color $color-white
+    background-color $color-red
+
+
+
+  // &.btn-rotate-90.rotate-active
+  //   activate-rotaion(90deg)
+
+
+
+  // > i
+  //   &.rotate-active
+  //     transform-rotate(90deg)
+
+
+
+
+
+
+
+
+//     color green
+//     animation(enter-rotate-gcon 0.3s ease both)
+
+//   &.ng-enter.ng-enter-active
+//     color blue
+//     animation(enter-rotate-gcon 0.3s ease both)
+
+//   &.ng-leave
+//     color blue
+//     animation(enter-rotate-gcon 0.3s ease both)
+
+
+// +keyframes(enter-rotate-gcon)
+//   to
+//     -webkit-transform rotate(90deg)
+//     -ms-transform rotate(90deg)
+//     transform rotate(90deg)
+
+// +keyframes(leave-rotate-gcon)
+//   to
+//     -webkit-transform rotate(-90deg)
+//     -ms-transform rotate(-90deg)
+//     transform rotate(-90deg)
+
+
+
+

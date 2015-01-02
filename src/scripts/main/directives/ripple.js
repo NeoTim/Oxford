@@ -1,7 +1,7 @@
 ;(function(){
 'use strict';
   angular
-    .module('oxford.directives.ripple', [])
+    .module('ui-flex')
     .directive('oxRipple', oxRipple);
 
     function oxRipple(){
